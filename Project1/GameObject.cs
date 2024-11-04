@@ -8,7 +8,6 @@ public abstract class GameObject
     private Texture2D sprite;
     protected Texture2D[] sprites;
     protected Vector2 position;
-    private Rectangle rectangle;
     protected float rotation;
     protected float fps;
     private float timeElapsed;
@@ -24,8 +23,7 @@ public abstract class GameObject
     public Vector2 Position { get => position; set => position = value; }
     public Rectangle CollisionBox { get => collisionBox; }
     protected int CurrentIndex { get => currentIndex; set => currentIndex = value; }
-    public Rectangle Rectangle { get => rectangle; set => rectangle = value; }
-    public Vector2 Size { get => size; set => size = value; }
+    public Vector2 Size { get => size; set => size = value; } //TODO: It is currently the subclass' responsibility it to calculate Size, in the future it should be this class that does it, somehow..
     public bool CollisionEnabled { get => collisionEnabled; set => collisionEnabled = value; }
 
     public abstract void LoadContent(ContentManager contentManager);
