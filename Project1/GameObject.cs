@@ -8,6 +8,7 @@ public abstract class GameObject
     private Texture2D sprite;
     protected Texture2D[] sprites;
     protected Vector2 position;
+    private Rectangle rectangle;
     protected float rotation;
     protected float fps;
     private float timeElapsed;
@@ -16,18 +17,29 @@ public abstract class GameObject
     protected float speed;
     protected Rectangle collisionBox;
     protected float scale = 1f;
+    private bool collisionEnabled = true;
+    protected Vector2 size;
 
     public Texture2D Sprite { get => sprite; set => sprite = value; }
     public Vector2 Position { get => position; set => position = value; }
     public Rectangle CollisionBox { get => collisionBox; }
     protected int CurrentIndex { get => currentIndex; set => currentIndex = value; }
+    public Rectangle Rectangle { get => rectangle; set => rectangle = value; }
+    public Vector2 Size { get => size; set => size = value; }
+    public bool CollisionEnabled { get => collisionEnabled; set => collisionEnabled = value; }
 
     public abstract void LoadContent(ContentManager contentManager);
 
     public void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Sprite, Position, null, Color.White, rotation, new Vector2(Sprite.Width/2, Sprite.Height/2), scale, SpriteEffects.None, 0);
-        collisionBox = new Rectangle((int)position.X-(Sprite.Width/2 * (int)scale), (int)position.Y - (Sprite.Height/2*(int)scale), sprite.Width*(int)scale, sprite.Height*(int)scale);
+
+        rectangle = new Rectangle((int)position.X - (Sprite.Width / 2 * (int)scale), (int)position.Y - (Sprite.Height / 2 * (int)scale), sprite.Width * (int)scale, sprite.Height * (int)scale);
+
+        if (collisionEnabled)
+        {
+            collisionBox = rectangle;
+        }
     }
 
     public abstract void Update(GameTime gameTime);
@@ -62,6 +74,8 @@ public abstract class GameObject
 
     public void CheckCollision(GameObject other)
     {
+        if (!collisionEnabled) return;
+
         if(CollisionBox.Intersects(other.CollisionBox))
         {
             OnCollision(other);
