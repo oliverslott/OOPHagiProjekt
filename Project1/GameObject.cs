@@ -15,7 +15,7 @@ public abstract class GameObject
     protected Vector2 velocity;
     protected float speed;
     protected Rectangle collisionBox;
-    protected float scale = 0f;
+    protected float scale = 1f;
 
     public Texture2D Sprite { get => sprite; set => sprite = value; }
     public Vector2 Position { get => position; set => position = value; }
@@ -27,7 +27,7 @@ public abstract class GameObject
     public void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Sprite, Position, null, Color.White, rotation, new Vector2(Sprite.Width/2, Sprite.Height/2), scale, SpriteEffects.None, 0);
-        collisionBox = new Rectangle((int)position.X-Sprite.Width/2, (int)position.Y - Sprite.Height/2, sprite.Width, sprite.Height);
+        collisionBox = new Rectangle((int)position.X-(Sprite.Width/2 * (int)scale), (int)position.Y - (Sprite.Height/2*(int)scale), sprite.Width*(int)scale, sprite.Height*(int)scale);
     }
 
     public abstract void Update(GameTime gameTime);

@@ -62,7 +62,7 @@ namespace Project1
 
             //spriteFont = Content.Load<SpriteFont>("font2"); TODO
 
-            //collisionTexture = Content.Load<Texture2D>("pixel"); TODO
+            collisionTexture = Content.Load<Texture2D>("pixel");
 
             foreach (GameObject gameobject in gameObjects)
             {
@@ -109,7 +109,7 @@ namespace Project1
                 gameobject.Draw(_spriteBatch);
 
 #if DEBUG
-                //DrawCollisionBox(gameobject);
+                DrawCollisionBox(gameobject);
 #endif
             }
 
