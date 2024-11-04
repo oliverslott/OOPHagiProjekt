@@ -34,11 +34,9 @@ public abstract class GameObject
     {
         spriteBatch.Draw(Sprite, Position, null, Color.White, rotation, new Vector2(Sprite.Width/2, Sprite.Height/2), scale, SpriteEffects.None, 0);
 
-        rectangle = new Rectangle((int)position.X - (Sprite.Width / 2 * (int)scale), (int)position.Y - (Sprite.Height / 2 * (int)scale), sprite.Width * (int)scale, sprite.Height * (int)scale);
-
         if (collisionEnabled)
         {
-            collisionBox = rectangle;
+            collisionBox = new Rectangle((int)position.X - (Sprite.Width / 2 * (int)scale), (int)position.Y - (Sprite.Height / 2 * (int)scale), sprite.Width * (int)scale, sprite.Height * (int)scale);
         }
     }
 
