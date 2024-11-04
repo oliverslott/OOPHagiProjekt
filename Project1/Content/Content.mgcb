@@ -86,6 +86,7 @@
 /build:right.png
 
 #begin walk_down_1.png
+#begin tile.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -98,6 +99,9 @@
 /build:walk_down_1.png
 
 #begin walk_down_2.png
+/build:tile.png
+
+#begin tile2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -276,4 +280,5 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:walk_up_4.png
+/build:tile2.png
 
