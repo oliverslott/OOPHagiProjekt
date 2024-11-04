@@ -31,6 +31,8 @@ namespace Project1
 
         private Texture2D tileSprite;
 
+        private Texture2D tileSprite2;
+
         private Player player;
 
 
@@ -60,12 +62,28 @@ namespace Project1
             gameObjectsToAdd = new List<GameObject>();
 
             tileSprite = Content.Load<Texture2D>("tile");
+            tileSprite2 = Content.Load<Texture2D>("tile2");
+
+            Random rand = new Random();
 
             for (int x = 0; x < 50; x++)
             {
                 for (int y = 0; y < 50; y++)
                 {
-                    Tile newTile = new Tile(tileSprite);
+                    Texture2D chosenSprite;
+                    switch (rand.Next(0, 2))
+                    {
+                        case 0:
+                            chosenSprite = tileSprite;
+                            break;
+                        case 1:
+                            chosenSprite = tileSprite2;
+                            break;
+                        default:
+                            chosenSprite = tileSprite;
+                            break;
+                    }
+                    Tile newTile = new Tile(chosenSprite);
                     newTile.Position = new Vector2(x * newTile.Size.X, y * newTile.Size.Y);
                     gameObjects.Add(newTile);
                 }
