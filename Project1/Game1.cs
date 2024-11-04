@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,16 +11,47 @@ namespace Project1
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private List<GameObject> gameObjects;
+
+        private static List<GameObject> gameObjectsToRemove;
+        private static List<GameObject> gameObjectsToAdd;
+
+        private float spawnTimer;
+
+        private float spawnInterval;
+
+        public static SpriteFont spriteFont;
+
+        private static Vector2 screenSize;
+
+        private Texture2D collisionTexture;
+
+        public static bool gameOver;
+
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
+        public static Vector2 GetScreenSize()
+        {
+            return screenSize;
+        }
+
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            spawnTimer = 0f;
+            spawnInterval = 5;
+
+            gameObjects = new List<GameObject>();
+            gameObjectsToRemove = new List<GameObject>();
+            gameObjectsToAdd = new List<GameObject>();
+
+            gameObjects.Add(new Player());
 
             base.Initialize();
         }
@@ -27,7 +60,14 @@ namespace Project1
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            //spriteFont = Content.Load<SpriteFont>("font2"); TODO
+
+            //collisionTexture = Content.Load<Texture2D>("pixel"); TODO
+
+            foreach (GameObject gameobject in gameObjects)
+            {
+                gameobject.LoadContent(Content);
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -35,18 +75,91 @@ namespace Project1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObject.Update(gameTime);
+
+                foreach (GameObject other in gameObjects)
+                {
+                    if (other == gameObject) continue;
+
+                    gameObject.CheckCollision(other);
+                }
+            }
+
+            AddGameobjects();
+            RemoveGameobjects();
 
             base.Update(gameTime);
+        }
+
+        public static void AddGameobjectToRemove(GameObject gameObject)
+        {
+            gameObjectsToRemove.Add(gameObject);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            foreach (GameObject gameobject in gameObjects)
+            {
+                gameobject.Draw(_spriteBatch);
+
+#if DEBUG
+                //DrawCollisionBox(gameobject);
+#endif
+            }
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void AddGameobjects()
+        {
+            foreach (GameObject gameObject in gameObjectsToAdd)
+            {
+                gameObject.LoadContent(Content);
+                gameObjects.Add(gameObject);
+                Console.WriteLine($"Spawned object: {gameObject}");
+            }
+
+            gameObjectsToAdd.Clear();
+        }
+
+        public static void InstantiateGameobject(GameObject gameObject)
+        {
+            gameObjectsToAdd.Add(gameObject);
+        }
+
+        private void RemoveGameobjects()
+        {
+            foreach (GameObject gameObject in gameObjectsToRemove)
+            {
+                gameObjects.Remove(gameObject);
+            }
+            gameObjectsToRemove.Clear();
+        }
+
+        private void DrawCollisionBox(GameObject go)
+        {
+            Rectangle collisionBox = go.CollisionBox;
+            Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
+
+            Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
+
+            Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
+
+            Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
+
+            _spriteBatch.Draw(collisionTexture, topLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            _spriteBatch.Draw(collisionTexture, bottomLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            _spriteBatch.Draw(collisionTexture, rightLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            _spriteBatch.Draw(collisionTexture, leftLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+
         }
     }
 }
