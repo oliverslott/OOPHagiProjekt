@@ -45,5 +45,10 @@ namespace Project1
         {
             
         }
+
+        public override void OnCollision(GameObject other)
+        {
+            
+        }
     }
 }
