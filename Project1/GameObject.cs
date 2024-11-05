@@ -16,18 +16,26 @@ public abstract class GameObject
     protected float speed;
     protected Rectangle collisionBox;
     protected float scale = 1f;
+    private bool collisionEnabled = true;
+    protected Vector2 size;
 
     public Texture2D Sprite { get => sprite; set => sprite = value; }
     public Vector2 Position { get => position; set => position = value; }
     public Rectangle CollisionBox { get => collisionBox; }
     protected int CurrentIndex { get => currentIndex; set => currentIndex = value; }
+    public Vector2 Size { get => size; set => size = value; } //TODO: It is currently the subclass' responsibility it to calculate Size, in the future it should be this class that does it, somehow..
+    public bool CollisionEnabled { get => collisionEnabled; set => collisionEnabled = value; }
 
     public abstract void LoadContent(ContentManager contentManager);
 
     public void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Sprite, Position, null, Color.White, rotation, new Vector2(Sprite.Width/2, Sprite.Height/2), scale, SpriteEffects.None, 0);
-        collisionBox = new Rectangle((int)position.X-(Sprite.Width/2 * (int)scale), (int)position.Y - (Sprite.Height/2*(int)scale), sprite.Width*(int)scale, sprite.Height*(int)scale);
+
+        if (collisionEnabled)
+        {
+            collisionBox = new Rectangle((int)position.X - (Sprite.Width / 2 * (int)scale), (int)position.Y - (Sprite.Height / 2 * (int)scale), sprite.Width * (int)scale, sprite.Height * (int)scale);
+        }
     }
 
     public abstract void Update(GameTime gameTime);
@@ -62,6 +70,8 @@ public abstract class GameObject
 
     public void CheckCollision(GameObject other)
     {
+        if (!collisionEnabled) return;
+
         if(CollisionBox.Intersects(other.CollisionBox))
         {
             OnCollision(other);
