@@ -28,6 +28,8 @@ namespace Project1
 
         public static bool gameOver;
 
+        private HealthBar playerHealthBar;
+
 
         public Game1()
         {
@@ -68,6 +70,11 @@ namespace Project1
             {
                 gameobject.LoadContent(Content);
             }
+
+            Texture2D healthTexture = new Texture2D(GraphicsDevice, 1, 1);
+            healthTexture.SetData(new[] { Color.Red });
+
+            playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
         }
 
         protected override void Update(GameTime gameTime)
@@ -87,8 +94,15 @@ namespace Project1
                 }
             }
 
+
+
             AddGameobjects();
             RemoveGameobjects();
+
+            if (playerHealthBar != null)
+            {
+                playerHealthBar.SetHealth(playerHealthBar.currentHealth - 1);
+            }
 
             base.Update(gameTime);
         }
@@ -112,6 +126,8 @@ namespace Project1
                 DrawCollisionBox(gameobject);
 #endif
             }
+
+            playerHealthBar.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
