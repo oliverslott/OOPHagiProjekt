@@ -60,11 +60,11 @@ namespace Project1
 
         private void FollowPlayer(GameTime gameTime)
         {
-            ;
+            
 
             Vector2 direction = player.Position - position;
             direction.Normalize();
-            position += direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            velocity = direction;
 
            
           
