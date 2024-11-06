@@ -145,7 +145,11 @@ public class Player : GameObject
     {
         if(shootCooldown <= 0)
         {
-            Game1.InstantiateGameobject(new Bullet(bulletSprite, position, GetVelocityByDirection(currentDirection)));
+            MouseState mouseState = Mouse.GetState();
+            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+
+            //The reason I am not using player position here is because we are doing some weird matrix translation, which causes the mouseposition and player position to be out of sync.
+            Game1.InstantiateGameobject(new Bullet(bulletSprite, position, mousePosition - Game1.GetScreenSize()/2));
             shootCooldown = shootInterval;
         }
     }
