@@ -55,6 +55,15 @@ public abstract class GameObject
         }
     }
 
+    protected void ChangeAnimationSprites(Texture2D[] sprites)
+    {
+        if (this.sprites == sprites) return;
+
+        currentIndex = 0;
+        timeElapsed = 0; //Reset timeElapsed because it could cause currentIndex to be bigger than the length of sprites
+        this.sprites = sprites;
+    }
+
     protected void Move(GameTime gameTime)
     {
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
