@@ -17,22 +17,26 @@ namespace Project1
         protected static Random random = new Random();
 
         private Texture2D enemy;
-        
-        
-        
-        
+
+
+
+
         private static float NextFloat(float min, float max)
         {
             return (float)(random.NextDouble() * (max - min) + min);
         }
 
+        
+
 
         public Enemy()
         {
-            scale = 1.0f;
+            scale = .05f;
             speed = NextFloat(100, 200);
             velocity = new Vector2(0, 1);
-            position = new Vector2(NextFloat(0, - 150), 200); // ik rigtigt endnu
+            RandomSpawn(); // Kald RandomSpawn her for at sætte en tilfældig startposition
+
+
 
 
         }
@@ -41,6 +45,7 @@ namespace Project1
         {
             enemy = contentManager.Load<Texture2D>("enemytest");
 
+            Sprite = enemy;
 
             RandomSpawn();
         }
@@ -52,17 +57,21 @@ namespace Project1
 
         protected void RandomSpawn()
         {
-            //int randomX = random.Next(0, );
-            //int randomY = random.Next(0, gameHeight);
+            // Antag spillets bredde og højde; disse værdier skal ændres til spillets faktiske dimensioner
+            int gameWidth = 1280;  // Skift til bredden af din spilskærm
+            int gameHeight = 720; // Skift til højden af din spilskærm
 
-            // Indstil enemy's position til den tilfældige placering
-            //this.position = new Vector2(randomX, randomY);
+            // Generer tilfældige x- og y-koordinater inden for spilområdet
+            float randomX = NextFloat(0, gameWidth);
+            float randomY = NextFloat(0, gameHeight);
+
+            // Sæt enemy's position til den tilfældige placering
+            position = new Vector2(randomX, randomY);
         }
 
         public override void OnCollision(GameObject other)
         {
-            //if (other is Player)
-            //    shouldBeRemoved = true;
+            
         }
     }
 }
