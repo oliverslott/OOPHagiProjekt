@@ -26,13 +26,15 @@ namespace Project1
             return (float)(random.NextDouble() * (max - min) + min);
         }
 
-        
+        private Player player;
 
 
-        public Enemy()
+        public Enemy(Player player)
         {
-            scale = .05f;
-            speed = NextFloat(100, 200);
+            this.player = player;
+            
+            scale = .2f;
+            speed = NextFloat(25, 50);
             velocity = new Vector2(0, 1);
             RandomSpawn(); // Kald RandomSpawn her for at sætte en tilfældig startposition
 
@@ -53,6 +55,19 @@ namespace Project1
         public override void Update(GameTime gameTime)
         {
             Move(gameTime);
+            FollowPlayer(gameTime);
+        }
+
+        private void FollowPlayer(GameTime gameTime)
+        {
+            ;
+
+            Vector2 direction = player.Position - position;
+            direction.Normalize();
+            position += direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+           
+          
         }
 
         protected void RandomSpawn()

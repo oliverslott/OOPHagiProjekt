@@ -22,7 +22,7 @@ namespace Project1
         private float spawnTimer;
 
         private float spawnInterval;
-        private float timeBetweenInterval = 1f;
+        private float timeBetweenInterval = 5f;
 
         public static SpriteFont spriteFont;
 
@@ -199,9 +199,9 @@ namespace Project1
 
             bool spawnEnemy = rnd.Next(100) > 80;
             if (spawnEnemy)
-                spawnedEnemy = new Enemy();
+                spawnedEnemy = new Enemy(player);
             else
-                spawnedEnemy = new Enemy();
+                spawnedEnemy = new Enemy(player);
             
             
 
