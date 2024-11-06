@@ -158,7 +158,7 @@ namespace Project1
 
             if (playerHealthBar != null)
             {
-                playerHealthBar.SetHealth(playerHealthBar.currentHealth - 1);
+                playerHealthBar.SetHealth((int)player.Health);
             }
 
             base.Update(gameTime);
