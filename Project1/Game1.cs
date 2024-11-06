@@ -174,6 +174,11 @@ namespace Project1
 #endif
             }
 
+            _spriteBatch.End();
+
+
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
             playerHealthBar.Draw(_spriteBatch);
 
             _spriteBatch.End();
