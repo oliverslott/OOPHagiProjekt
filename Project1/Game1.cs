@@ -9,6 +9,8 @@ namespace Project1
 {
     public class Game1 : Game
     {
+        private Random rnd;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -20,6 +22,7 @@ namespace Project1
         private float spawnTimer;
 
         private float spawnInterval;
+        private float timeBetweenInterval = 1f;
 
         public static SpriteFont spriteFont;
 
@@ -38,6 +41,8 @@ namespace Project1
 
         public Game1()
         {
+            rnd = new Random();
+
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
@@ -113,6 +118,14 @@ namespace Project1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            spawnInterval += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (spawnInterval > timeBetweenInterval)
+            {
+                SpawnEnemy();
+                spawnInterval = 0;
+            }
+
+
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.Update(gameTime);
@@ -179,6 +192,24 @@ namespace Project1
         {
             gameObjectsToAdd.Add(gameObject);
         }
+
+        private void SpawnEnemy()
+        {
+            Enemy spawnedEnemy;
+
+            bool spawnEnemy = rnd.Next(100) > 80;
+            if (spawnEnemy)
+                spawnedEnemy = new Enemy();
+            else
+                spawnedEnemy = new Enemy();
+            
+            
+
+            spawnedEnemy.LoadContent(Content);
+            gameObjects.Add(spawnedEnemy);
+        }
+
+
 
         private void RemoveGameobjects()
         {
