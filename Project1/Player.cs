@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -17,20 +18,27 @@ public class Player : GameObject
     private Texture2D[] walk_back_sprites;
     private Texture2D[] walk_right_sprites;
     private Texture2D[] walk_left_sprites;
-    private double animationTimer = 0;
-    private double timePerFrame;
+    private Texture2D bulletSprite;
+    private const float shootInterval = 0.1f;
+    private float shootCooldown = 0f;
+
+    private enum Direction
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+
+    private Direction currentDirection = Direction.DOWN;
 
     public Player()
     {
         speed = 300;
         position.X = Game1.GetScreenSize().X / 2;
         position.Y = Game1.GetScreenSize().Y - 100;
-        fps = 20;
+        fps = 12;
         scale = 3;
-
-        //Calculate time per frame
-        timePerFrame = 1/fps;
-
     }
 
     public override void LoadContent(ContentManager contentManager)
@@ -72,7 +80,9 @@ public class Player : GameObject
         }
 
         //Sprite displayed when player spawns
-        Sprite = front;
+        sprites = [front];
+
+        bulletSprite = contentManager.Load<Texture2D>("Bullet_Small"); //Gets loaded before-hand for better performance
     }
 
     public override void OnCollision(GameObject other)
@@ -82,8 +92,13 @@ public class Player : GameObject
 
     public override void Update(GameTime gameTime)
     {
+        if(shootCooldown >= 0)
+        {
+            shootCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        HandleAnimationState();
         HandleInput(gameTime);
-        //Animate(gameTime);
+        Animate(gameTime);
         Move(gameTime);
     }
 
@@ -92,93 +107,114 @@ public class Player : GameObject
         velocity = Vector2.Zero;
         KeyboardState keyState = Keyboard.GetState();
 
-        //Updates animation timer to elapsed game time
-        animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-
-        //Next animation frame will be updated, when enough time has passed.
-        if (animationTimer >= timePerFrame)
+        if (keyState.IsKeyDown(Keys.W))
         {
-            //Resets timer
-            animationTimer -= timePerFrame; 
-
-            //W-tast input
-            if (keyState.IsKeyDown(Keys.W))
-            {
-                //Sprite bliver opdateret til at vise spritet svarende 
-                //til CurrentIndex i walk_back_sprites-arrayet
-                Sprite = walk_back_sprites[CurrentIndex];
-                
-                // Nulstiller CurrentIndex ved slut af animations-array
-                CurrentIndex++;
-                if (CurrentIndex >= walk_back_sprites.Length)
-                {
-                    CurrentIndex = 0;
-                }
-
-                //Player bevæger sig op ved tryk på "W"
-                velocity += new Vector2(0, -1);
-
-            }
-
-            //S-tast input
-            if (keyState.IsKeyDown(Keys.S))
-            {
-                //Sprite bliver opdateret til at vise spritet svarende 
-                //til CurrentIndex i walk_back_sprites-arrayet
-                Sprite = walk_down_sprites[CurrentIndex];
-                
-                // Nulstiller CurrentIndex ved slut af animations-array
-                CurrentIndex++;
-                if (CurrentIndex >= walk_down_sprites.Length)
-                {
-                    CurrentIndex = 0;
-                }
-
-                //Player bevæger sig op ved tryk på "W"
-                velocity += new Vector2(0, 1);
-            }
-
-            //A-tast input
-            if (keyState.IsKeyDown(Keys.A))
-            {
-                //Sprite bliver opdateret til at vise spritet svarende 
-                //til CurrentIndex i walk_back_sprites-arrayet
-                Sprite = walk_left_sprites[CurrentIndex];
-                
-                // Nulstiller CurrentIndex ved slut af animations-array
-                CurrentIndex++;
-                if (CurrentIndex >= walk_left_sprites.Length)
-                {
-                    CurrentIndex = 0;
-                }
-
-                //Player bevæger sig op ved tryk på "W"
-                velocity += new Vector2(-1, 0);
-            }
-
-            //D-tast input
-            if (keyState.IsKeyDown(Keys.D))
-            {
-                //Sprite bliver opdateret til at vise spritet svarende 
-                //til CurrentIndex i walk_back_sprites-arrayet
-                Sprite = walk_right_sprites[CurrentIndex];
-                
-                // Nulstiller CurrentIndex ved slut af animations-array
-                CurrentIndex++;
-                if (CurrentIndex >= walk_right_sprites.Length)
-                {
-                    CurrentIndex = 0;
-                }
-
-                //Player bevæger sig op ved tryk på "W"
-                velocity += new Vector2(1, 0);
-            } 
-
-            if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-            }
+            currentDirection = Direction.UP;
+            velocity += new Vector2(0, -1);
         }
-        
+        if (keyState.IsKeyDown(Keys.S))
+        {
+            currentDirection = Direction.DOWN;
+            velocity += new Vector2(0, 1);
+        }
+
+        if (keyState.IsKeyDown(Keys.A))
+        {
+            currentDirection = Direction.LEFT;
+            velocity += new Vector2(-1, 0);
+        }
+
+        if (keyState.IsKeyDown(Keys.D))
+        {
+            currentDirection = Direction.RIGHT;
+            velocity += new Vector2(1, 0);
+        }
+
+        if (velocity != Vector2.Zero)
+        {
+            velocity.Normalize();
+        }
+
+        if (keyState.IsKeyDown(Keys.Space))
+        {
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        if(shootCooldown <= 0)
+        {
+            MouseState mouseState = Mouse.GetState();
+            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+
+            //The reason I am not using player position here is because we are doing some weird matrix translation, which causes the mouseposition and player position to be out of sync.
+            Game1.InstantiateGameobject(new Bullet(bulletSprite, position, mousePosition - Game1.GetScreenSize()/2));
+            shootCooldown = shootInterval;
+        }
+    }
+
+    private Vector2 GetVelocityByDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.UP:
+                return new Vector2(0, -1);
+            case Direction.DOWN:
+                return new Vector2(0, 1);
+            case Direction.LEFT:
+                return new Vector2(-1, 0);
+            case Direction.RIGHT:
+                return new Vector2(1, 0);
+            default:
+                return new Vector2(0, 1);
+        }
+    }
+
+    private void HandleAnimationState()
+    {
+        switch (currentDirection)
+        {
+            case Direction.UP:
+                if(velocity.LengthSquared() > 0f)
+                {
+                    ChangeAnimationSprites(walk_back_sprites);
+                }
+                else
+                {
+                    ChangeAnimationSprites([back]);
+                }
+                break;
+            case Direction.DOWN:
+                if (velocity.LengthSquared() > 0f)
+                {
+                    ChangeAnimationSprites(walk_down_sprites);
+                }
+                else
+                {
+                    ChangeAnimationSprites([front]);
+                }
+                break;
+            case Direction.LEFT:
+                if (velocity.LengthSquared() > 0f)
+                {
+                    ChangeAnimationSprites(walk_left_sprites);
+                }
+                else
+                {
+                    ChangeAnimationSprites([left]);
+                }
+                break;
+            case Direction.RIGHT:
+                if (velocity.LengthSquared() > 0f)
+                {
+                    ChangeAnimationSprites(walk_right_sprites);
+                }
+                else
+                {
+                    ChangeAnimationSprites([right]);
+                }
+                break;
+        }
     }
 }
