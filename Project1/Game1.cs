@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -28,12 +29,22 @@ namespace Project1
 
         public static bool gameOver;
 
+
         private HealthBar playerHealthBar;
+
+        private Texture2D tileSprite;
+
+        private Texture2D tileSprite2;
+
+        private Player player;
+
 
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
             screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -49,11 +60,40 @@ namespace Project1
             spawnTimer = 0f;
             spawnInterval = 5;
 
+
             gameObjects = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             gameObjectsToAdd = new List<GameObject>();
 
-            gameObjects.Add(new Player());
+            tileSprite = Content.Load<Texture2D>("tile");
+            tileSprite2 = Content.Load<Texture2D>("tile2");
+
+            Random rand = new Random();
+
+            for (int x = 0; x < 50; x++)
+            {
+                for (int y = 0; y < 50; y++)
+                {
+                    Texture2D chosenSprite;
+                    switch (rand.Next(0, 2))
+                    {
+                        case 0:
+                            chosenSprite = tileSprite;
+                            break;
+                        case 1:
+                            chosenSprite = tileSprite2;
+                            break;
+                        default:
+                            chosenSprite = tileSprite;
+                            break;
+                    }
+                    Tile newTile = new Tile(chosenSprite);
+                    newTile.Position = new Vector2(x * newTile.Size.X, y * newTile.Size.Y);
+                    gameObjects.Add(newTile);
+                }
+            }
+            player = new Player();
+            gameObjects.Add(player);
 
             base.Initialize();
         }
@@ -86,12 +126,16 @@ namespace Project1
             {
                 gameObject.Update(gameTime);
 
-                foreach (GameObject other in gameObjects)
+                if(gameObject.CollisionEnabled)
                 {
-                    if (other == gameObject) continue;
+                    foreach (GameObject other in gameObjects)
+                    {
+                        if (other == gameObject) continue;
 
-                    gameObject.CheckCollision(other);
+                        gameObject.CheckCollision(other);
+                    }
                 }
+
             }
 
 
@@ -116,7 +160,10 @@ namespace Project1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            //Move the camera based on the player position
+            Matrix cameraTransform = Matrix.CreateTranslation(-player.Position.X+screenSize.X/2, -player.Position.Y+screenSize.Y/2, 0);
+
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: cameraTransform);
 
             foreach (GameObject gameobject in gameObjects)
             {
@@ -162,6 +209,8 @@ namespace Project1
 
         private void DrawCollisionBox(GameObject go)
         {
+            if (!go.CollisionEnabled) return;
+
             Rectangle collisionBox = go.CollisionBox;
             Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
 

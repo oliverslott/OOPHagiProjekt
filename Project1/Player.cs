@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -12,6 +14,23 @@ public class Player : GameObject
     private Texture2D back;
     private Texture2D right;
     private Texture2D left;
+    private Texture2D[] walk_down_sprites;
+    private Texture2D[] walk_back_sprites;
+    private Texture2D[] walk_right_sprites;
+    private Texture2D[] walk_left_sprites;
+    private Texture2D bulletSprite;
+    private const float shootInterval = 0.1f;
+    private float shootCooldown = 0f;
+
+    private enum Direction
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+
+    private Direction currentDirection = Direction.DOWN;
 
     public Player()
     {
@@ -24,12 +43,46 @@ public class Player : GameObject
 
     public override void LoadContent(ContentManager contentManager)
     {
+        //Player faces front (sprite)
         front = contentManager.Load<Texture2D>("front");
-        back = contentManager.Load<Texture2D>("back");
-        right = contentManager.Load<Texture2D>("right");
-        left = contentManager.Load<Texture2D>("left");
+        //Walking down animations (facing screen)
+        walk_down_sprites = new Texture2D[4];
+        for (int i = 0; i < walk_down_sprites.Length; i++) 
+        {
+            walk_down_sprites[i] = contentManager.Load<Texture2D>($"walk_down_{i + 1}");
+        }
 
-        Sprite = front;
+        //Player faces back (sprite)
+        back = contentManager.Load<Texture2D>("back");
+        //Walking up animations (facing away from screen)
+        walk_back_sprites = new Texture2D[4];
+        for (int i = 0; i < walk_back_sprites.Length; i++) 
+        {
+            walk_back_sprites[i] = contentManager.Load<Texture2D>($"walk_up_{i + 1}");
+        }
+
+        //Player faces right (sprite)
+        right = contentManager.Load<Texture2D>("right");
+        //Walking up animations (facing away from screen)
+        walk_right_sprites = new Texture2D[4];
+        for (int i = 0; i < walk_right_sprites.Length; i++) 
+        {
+            walk_right_sprites[i] = contentManager.Load<Texture2D>($"walk_right_{i + 1}");
+        }
+
+        //Player faces left (sprite)
+        left = contentManager.Load<Texture2D>("left");
+        //Walking up animations (facing away from screen)
+        walk_left_sprites = new Texture2D[4];
+        for (int i = 0; i < walk_left_sprites.Length; i++) 
+        {
+            walk_left_sprites[i] = contentManager.Load<Texture2D>($"walk_left_{i + 1}");
+        }
+
+        //Sprite displayed when player spawns
+        sprites = [front];
+
+        bulletSprite = contentManager.Load<Texture2D>("Bullet_Small"); //Gets loaded before-hand for better performance
     }
 
     public override void OnCollision(GameObject other)
@@ -39,42 +92,129 @@ public class Player : GameObject
 
     public override void Update(GameTime gameTime)
     {
-        HandleInput();
-        //Animate(gameTime);
+        if(shootCooldown >= 0)
+        {
+            shootCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        HandleAnimationState();
+        HandleInput(gameTime);
+        Animate(gameTime);
         Move(gameTime);
     }
 
-    private void HandleInput()
+    private void HandleInput(GameTime gameTime)
     {
         velocity = Vector2.Zero;
-
         KeyboardState keyState = Keyboard.GetState();
 
         if (keyState.IsKeyDown(Keys.W))
         {
-            Sprite = back;
+            currentDirection = Direction.UP;
             velocity += new Vector2(0, -1);
         }
         if (keyState.IsKeyDown(Keys.S))
         {
-            Sprite = front;
+            currentDirection = Direction.DOWN;
             velocity += new Vector2(0, 1);
         }
+
         if (keyState.IsKeyDown(Keys.A))
         {
-            Sprite = left;
+            currentDirection = Direction.LEFT;
             velocity += new Vector2(-1, 0);
         }
+
         if (keyState.IsKeyDown(Keys.D))
         {
-            Sprite = right;
+            currentDirection = Direction.RIGHT;
             velocity += new Vector2(1, 0);
         }
-
 
         if (velocity != Vector2.Zero)
         {
             velocity.Normalize();
+        }
+
+        if (keyState.IsKeyDown(Keys.Space))
+        {
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        if(shootCooldown <= 0)
+        {
+            MouseState mouseState = Mouse.GetState();
+            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+
+            //The reason I am not using player position here is because we are doing some weird matrix translation, which causes the mouseposition and player position to be out of sync.
+            Game1.InstantiateGameobject(new Bullet(bulletSprite, position, mousePosition - Game1.GetScreenSize()/2));
+            shootCooldown = shootInterval;
+        }
+    }
+
+    private Vector2 GetVelocityByDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.UP:
+                return new Vector2(0, -1);
+            case Direction.DOWN:
+                return new Vector2(0, 1);
+            case Direction.LEFT:
+                return new Vector2(-1, 0);
+            case Direction.RIGHT:
+                return new Vector2(1, 0);
+            default:
+                return new Vector2(0, 1);
+        }
+    }
+
+    private void HandleAnimationState()
+    {
+        switch (currentDirection)
+        {
+            case Direction.UP:
+                if(velocity.LengthSquared() > 0f)
+                {
+                    ChangeAnimationSprites(walk_back_sprites);
+                }
+                else
+                {
+                    ChangeAnimationSprites([back]);
+                }
+                break;
+            case Direction.DOWN:
+                if (velocity.LengthSquared() > 0f)
+                {
+                    ChangeAnimationSprites(walk_down_sprites);
+                }
+                else
+                {
+                    ChangeAnimationSprites([front]);
+                }
+                break;
+            case Direction.LEFT:
+                if (velocity.LengthSquared() > 0f)
+                {
+                    ChangeAnimationSprites(walk_left_sprites);
+                }
+                else
+                {
+                    ChangeAnimationSprites([left]);
+                }
+                break;
+            case Direction.RIGHT:
+                if (velocity.LengthSquared() > 0f)
+                {
+                    ChangeAnimationSprites(walk_right_sprites);
+                }
+                else
+                {
+                    ChangeAnimationSprites([right]);
+                }
+                break;
         }
     }
 }
