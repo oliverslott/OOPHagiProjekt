@@ -32,6 +32,8 @@ public class Player : GameObject
 
     private Direction currentDirection = Direction.DOWN;
 
+    public float Health { get => health; set => health = value; }
+
     public Player()
     {
         speed = 300;
@@ -39,6 +41,7 @@ public class Player : GameObject
         position.Y = Game1.GetScreenSize().Y - 100;
         fps = 12;
         scale = 3;
+        health = 1000;
     }
 
     public override void LoadContent(ContentManager contentManager)

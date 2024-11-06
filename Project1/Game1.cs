@@ -158,7 +158,7 @@ namespace Project1
 
             if (playerHealthBar != null)
             {
-                playerHealthBar.SetHealth(playerHealthBar.currentHealth - 1);
+                playerHealthBar.SetHealth((int)player.Health);
             }
 
             base.Update(gameTime);
@@ -186,6 +186,13 @@ namespace Project1
                 DrawCollisionBox(gameobject);
 #endif
             }
+
+            _spriteBatch.End();
+
+
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+            //Place all ui elements here (things that should stay on screen no matter the camera position)
 
             playerHealthBar.Draw(_spriteBatch);
 

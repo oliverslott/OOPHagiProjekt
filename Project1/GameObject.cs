@@ -18,6 +18,7 @@ public abstract class GameObject
     protected float scale = 1f;
     private bool collisionEnabled = true;
     protected Vector2 size;
+    protected SpriteEffects spriteEffects = SpriteEffects.None;
 
     public Texture2D Sprite { get => sprite; set => sprite = value; }
     public Vector2 Position { get => position; set => position = value; }
@@ -30,7 +31,7 @@ public abstract class GameObject
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(Sprite, Position, null, Color.White, rotation, new Vector2(Sprite.Width/2, Sprite.Height/2), scale, SpriteEffects.None, 0);
+        spriteBatch.Draw(Sprite, Position, null, Color.White, rotation, new Vector2(Sprite.Width/2, Sprite.Height/2), scale, spriteEffects, 0);
 
         if (collisionEnabled)
         {
