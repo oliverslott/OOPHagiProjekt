@@ -25,7 +25,11 @@
 /processorParam:TextureFormat=Color
 /build:back.png
 
+
+#begin enemytest.png
+
 #begin Bullet_Small.png
+
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,6 +39,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+
+/build:enemytest.png
+
 /build:Bullet_Small.png
 
 #begin Bullet.png
@@ -48,6 +55,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Bullet.png
+
 
 #begin front.png
 /importer:TextureImporter
