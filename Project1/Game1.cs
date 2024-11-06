@@ -192,6 +192,8 @@ namespace Project1
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+            //Place all ui elements here (things that should stay on screen no matter the camera position)
+
             playerHealthBar.Draw(_spriteBatch);
 
             _spriteBatch.End();
