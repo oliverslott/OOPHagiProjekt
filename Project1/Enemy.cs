@@ -17,6 +17,7 @@ namespace Project1
         protected static Random random = new Random();
 
         private Texture2D enemy;
+        private Texture2D[] enemy_walk_sprites;
 
 
 
@@ -33,10 +34,12 @@ namespace Project1
         {
             this.player = player;
             
-            scale = .2f;
+            scale = 2f;
             speed = NextFloat(25, 50);
             velocity = new Vector2(0, 1);
             RandomSpawn(); // Kald RandomSpawn her for at sætte en tilfældig startposition
+
+            fps = 12; 
 
 
 
@@ -45,9 +48,15 @@ namespace Project1
 
         public override void LoadContent(ContentManager contentManager)
         {
-            enemy = contentManager.Load<Texture2D>("enemytest");
+            enemy = contentManager.Load<Texture2D>("walk4");
 
-            Sprite = enemy;
+            enemy_walk_sprites = new Texture2D[4];
+            for (int i = 0; i < enemy_walk_sprites.Length; i++)
+            {
+                enemy_walk_sprites[i] = contentManager.Load<Texture2D>($"walk{i + 1}");
+            }
+
+            ChangeAnimationSprites(enemy_walk_sprites);
 
             RandomSpawn();
         }
@@ -56,6 +65,8 @@ namespace Project1
         {
             Move(gameTime);
             FollowPlayer(gameTime);
+            Animate(gameTime);
+
         }
 
         private void FollowPlayer(GameTime gameTime)
