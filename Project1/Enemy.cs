@@ -66,7 +66,19 @@ namespace Project1
             Move(gameTime);
             FollowPlayer(gameTime);
             Animate(gameTime);
+            Flip();
+        }
 
+        private void Flip()
+        {
+            if (velocity.X < 0)
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                spriteEffects = SpriteEffects.None;
+            }
         }
 
         private void FollowPlayer(GameTime gameTime)
