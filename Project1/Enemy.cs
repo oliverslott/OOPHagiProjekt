@@ -34,8 +34,8 @@ namespace Project1
         {
             this.player = player;
             
-            scale = 2f;
-            speed = NextFloat(25, 50);
+            scale = 3f;
+            speed = NextFloat(50, 75);
             velocity = new Vector2(0, 1);
             RandomSpawn(); // Kald RandomSpawn her for at sætte en tilfældig startposition
 
