@@ -27,6 +27,9 @@ public abstract class GameObject
     public Vector2 Size { get => size; set => size = value; } //TODO: It is currently the subclass' responsibility it to calculate Size, in the future it should be this class that does it, somehow..
     public bool CollisionEnabled { get => collisionEnabled; set => collisionEnabled = value; }
 
+    protected bool shouldBeRemoved;
+    public bool ShouldBeRemoved { get { return shouldBeRemoved; } }
+
     public abstract void LoadContent(ContentManager contentManager);
 
     public void Draw(SpriteBatch spriteBatch)
@@ -74,9 +77,12 @@ public abstract class GameObject
         position += velocity * speed * deltaTime;
     }
 
-    public bool IsColiding(GameObject other)
+    public bool IsColliding(GameObject other)
     {
-        return true;
+        if (this == other)
+            return true;
+
+        return CollisionBox.Intersects(other.CollisionBox);
     }
 
     public abstract void OnCollision(GameObject other);
@@ -90,4 +96,5 @@ public abstract class GameObject
             OnCollision(other);
         }
     }
+   
 }

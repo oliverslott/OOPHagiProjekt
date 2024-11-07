@@ -28,6 +28,9 @@ namespace Project1
             {
                 Debug.WriteLine("Bullet hit enemy!");
                 //TODO
+
+                Game1.AddGameobjectToRemove(this);
+                
             }
         }
 

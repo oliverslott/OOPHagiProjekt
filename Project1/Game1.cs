@@ -24,7 +24,7 @@ namespace Project1
         private float spawnTimer;
 
         private float spawnInterval;
-        private float timeBetweenInterval = 5f;
+        private float timeBetweenInterval = 1f;
 
         public static SpriteFont spriteFont;
 
@@ -42,6 +42,8 @@ namespace Project1
         private Texture2D tileSprite2;
 
         private Player player;
+
+        public static Texture2D CollisionTexture;
 
 
 
@@ -112,6 +114,7 @@ namespace Project1
             //spriteFont = Content.Load<SpriteFont>("font2"); TODO
 
             collisionTexture = Content.Load<Texture2D>("pixel");
+            CollisionTexture = Content.Load<Texture2D>("pixel");
 
             foreach (GameObject gameobject in gameObjects)
             {
@@ -141,7 +144,7 @@ namespace Project1
             {
                 gameObject.Update(gameTime);
 
-                if(gameObject.CollisionEnabled)
+                if (gameObject.CollisionEnabled)
                 {
                     foreach (GameObject other in gameObjects)
                     {
@@ -150,18 +153,17 @@ namespace Project1
                         gameObject.CheckCollision(other);
                     }
                 }
-
             }
 
-
+            if (player != null && playerHealthBar != null)
+            {
+                playerHealthBar.SetHealth((int)player.Health);
+            }
 
             AddGameobjects();
             RemoveGameobjects();
 
-            if (playerHealthBar != null)
-            {
-                playerHealthBar.SetHealth((int)player.Health);
-            }
+           
 
             base.Update(gameTime);
         }
