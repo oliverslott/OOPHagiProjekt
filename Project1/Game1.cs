@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -222,13 +223,13 @@ namespace Project1
         {
             Enemy spawnedEnemy;
 
-            bool spawnEnemy = rnd.Next(100) > 80;
-            if (spawnEnemy)
-                spawnedEnemy = new Enemy(player);
+            int spawnEnemy = rnd.Next(100);
+            if (spawnEnemy <= 33)
+                spawnedEnemy = new Rat(player);
+            else if (spawnEnemy > 33 && spawnEnemy <= 66)
+                spawnedEnemy = new Snake(player);
             else
-                spawnedEnemy = new Enemy(player);
-            
-            
+                spawnedEnemy = new Scorpio(player);
 
             spawnedEnemy.LoadContent(Content);
             gameObjects.Add(spawnedEnemy);
