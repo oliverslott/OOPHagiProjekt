@@ -67,6 +67,7 @@ namespace Project1
             FollowPlayer(gameTime);
             Animate(gameTime);
             Flip();
+            
         }
 
         private void Flip()
@@ -109,7 +110,10 @@ namespace Project1
 
         public override void OnCollision(GameObject other)
         {
-            
+            if (other is Enemy)
+            {
+                shouldBeRemoved = true;
+            }
         }
     }
 }

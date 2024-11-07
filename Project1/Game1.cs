@@ -139,7 +139,7 @@ namespace Project1
             {
                 gameObject.Update(gameTime);
 
-                if(gameObject.CollisionEnabled)
+                if (gameObject.CollisionEnabled)
                 {
                     foreach (GameObject other in gameObjects)
                     {
@@ -148,7 +148,6 @@ namespace Project1
                         gameObject.CheckCollision(other);
                     }
                 }
-
             }
 
 
