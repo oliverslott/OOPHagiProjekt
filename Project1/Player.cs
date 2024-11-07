@@ -19,7 +19,7 @@ public class Player : GameObject
     private Texture2D[] walk_right_sprites;
     private Texture2D[] walk_left_sprites;
     private Texture2D bulletSprite;
-    private const float shootInterval = 0.1f;
+    private float shootInterval = 0.5f;
     private float shootCooldown = 0f;
 
     private enum Direction
@@ -33,6 +33,11 @@ public class Player : GameObject
     private Direction currentDirection = Direction.DOWN;
 
     public float Health { get => health; set => health = value; }
+
+    public float Speed { get => speed; set => health = value; }
+
+    //Public setter for buffmanager
+    public float ShootInterval { get => shootInterval; set => shootInterval = value; }
 
     public Player()
     {
@@ -153,7 +158,7 @@ public class Player : GameObject
 
             //The reason I am not using player position here is because we are doing some weird matrix translation, which causes the mouseposition and player position to be out of sync.
             Game1.InstantiateGameobject(new Bullet(bulletSprite, position, mousePosition - Game1.GetScreenSize()/2));
-            shootCooldown = shootInterval;
+            shootCooldown = ShootInterval;
         }
     }
 

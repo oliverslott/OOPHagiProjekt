@@ -41,7 +41,7 @@ namespace Project1
 
         private Player player;
 
-
+        private BuffManager buffManager;
 
         public Game1()
         {
@@ -98,6 +98,7 @@ namespace Project1
                 }
             }
             player = new Player();
+            buffManager = new BuffManager(player);
             gameObjects.Add(player);
 
             base.Initialize();
@@ -110,6 +111,8 @@ namespace Project1
             //spriteFont = Content.Load<SpriteFont>("font2"); TODO
 
             collisionTexture = Content.Load<Texture2D>("pixel");
+
+            buffManager.LoadContent(Content);
 
             foreach (GameObject gameobject in gameObjects)
             {
@@ -161,6 +164,8 @@ namespace Project1
                 playerHealthBar.SetHealth((int)player.Health);
             }
 
+            buffManager.UpdateUI(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -194,6 +199,7 @@ namespace Project1
 
             //Place all ui elements here (things that should stay on screen no matter the camera position)
 
+            buffManager.DrawUI(_spriteBatch);
             playerHealthBar.Draw(_spriteBatch);
 
             _spriteBatch.End();
