@@ -27,6 +27,7 @@ namespace Project1
 
         public override void LoadContent(ContentManager contentManager)
         {
+
             //Rotte bevægelse
             snake_walk = new Texture2D[4];
             for (int i = 0; i < snake_walk.Length; i++)
@@ -54,16 +55,12 @@ namespace Project1
             {
                 snake_death[i] = contentManager.Load<Texture2D>($"snake_death_{i + 1}");
             }
+
+            base.LoadContent(contentManager);
         }
 
         public override void LoadWalkAnimation(ContentManager contentManager)
         {
-            //Rotte bevægelse
-            snake_walk = new Texture2D[4];
-            for (int i = 0; i < snake_walk.Length; i++)
-            {
-                snake_walk[i] = contentManager.Load<Texture2D>($"walk_rat_{i + 1}");
-            }
             ChangeAnimationSprites(snake_walk);
         }
     }

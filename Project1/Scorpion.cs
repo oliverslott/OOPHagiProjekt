@@ -54,16 +54,11 @@ namespace Project1
             {
                 scorpio_death[i] = contentManager.Load<Texture2D>($"scorpio_death_{i + 1}");
             }
+            base.LoadContent(contentManager);
         }
 
         public override void LoadWalkAnimation(ContentManager contentManager)
         {
-            //Rotte bevægelse
-            scorpio_walk = new Texture2D[4];
-            for (int i = 0; i < scorpio_walk.Length; i++)
-            {
-                scorpio_walk[i] = contentManager.Load<Texture2D>($"walk_rat_{i + 1}");
-            }
             ChangeAnimationSprites(scorpio_walk);
         } 
     }
