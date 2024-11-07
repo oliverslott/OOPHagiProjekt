@@ -9,6 +9,8 @@ using Project1;
 
 public class Player : GameObject
 {
+    public float Health { get; set; } = 1000; // 100 HP
+
     private float health;
     private Texture2D front;
     private Texture2D back;
@@ -22,6 +24,8 @@ public class Player : GameObject
     private const float shootInterval = 0.1f;
     private float shootCooldown = 0f;
 
+    
+
     private enum Direction
     {
         UP,
@@ -32,7 +36,7 @@ public class Player : GameObject
 
     private Direction currentDirection = Direction.DOWN;
 
-    public float Health { get => health; set => health = value; }
+    //public float Health { get => health; set => health = value; }
 
     public Player()
     {

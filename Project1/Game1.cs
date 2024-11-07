@@ -41,6 +41,8 @@ namespace Project1
 
         private Player player;
 
+        public static Texture2D CollisionTexture;
+
 
 
         public Game1()
@@ -110,6 +112,7 @@ namespace Project1
             //spriteFont = Content.Load<SpriteFont>("font2"); TODO
 
             collisionTexture = Content.Load<Texture2D>("pixel");
+            CollisionTexture = Content.Load<Texture2D>("pixel");
 
             foreach (GameObject gameobject in gameObjects)
             {
@@ -150,15 +153,15 @@ namespace Project1
                 }
             }
 
-
+            if (player != null && playerHealthBar != null)
+            {
+                playerHealthBar.SetHealth((int)player.Health);
+            }
 
             AddGameobjects();
             RemoveGameobjects();
 
-            if (playerHealthBar != null)
-            {
-                playerHealthBar.SetHealth((int)player.Health);
-            }
+           
 
             base.Update(gameTime);
         }

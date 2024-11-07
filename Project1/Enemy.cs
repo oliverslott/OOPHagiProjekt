@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
 
 namespace Project1
 {
@@ -20,6 +21,7 @@ namespace Project1
         private Texture2D[] enemy_walk_sprites;
 
         private int health = 2; // enemy health
+        //private int maxHealth;
 
 
         private static float NextFloat(float min, float max)
@@ -34,7 +36,7 @@ namespace Project1
         {
             this.player = player;
             
-            scale = 3f;
+            scale = 2f;
             speed = NextFloat(50, 75);
             velocity = new Vector2(0, 1);
             RandomSpawn(); // Kald RandomSpawn her for at sætte en tilfældig startposition
@@ -110,10 +112,10 @@ namespace Project1
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Enemy)
-            {
-                shouldBeRemoved = true;
-            }
+            //if (other is Enemy)
+            //{
+            //    shouldBeRemoved = true;
+            //}
             if (other is Bullet)
             {
                 health--;
@@ -123,6 +125,16 @@ namespace Project1
                     Game1.AddGameobjectToRemove(this);
                 }
             }
+            if (other is Player player)
+            {
+                player.Health -= 1; // Reducer HP med 
+                Debug.WriteLine($"Player hit! Health is now: {player.Health}");
+
+
+            }
         }
+
+      
     }
+    
 }
