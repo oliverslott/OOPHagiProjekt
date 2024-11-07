@@ -43,6 +43,9 @@ public abstract class GameObject
 
     protected void Animate(GameTime gameTime)
     {
+        //Undgår fejl, hvis enemy ikke spawner
+        if (sprites == null || sprites.Length == 0) return;
+
         timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         currentIndex = (int)(timeElapsed * fps);

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -222,13 +224,21 @@ namespace Project1
         {
             Enemy spawnedEnemy;
 
-            bool spawnEnemy = rnd.Next(100) > 80;
-            if (spawnEnemy)
-                spawnedEnemy = new Enemy(player);
+            int spawnEnemy = rnd.Next(100);
+            if (spawnEnemy <= 15)
+                spawnedEnemy = new Rat(player);
+            else if (spawnEnemy > 15 && spawnEnemy <= 29)
+                spawnedEnemy = new Snake(player);
+            else if (spawnEnemy > 29 && spawnEnemy <= 43)
+                spawnedEnemy = new Scorpio(player);
+            else if (spawnEnemy > 43 && spawnEnemy <= 57)
+                spawnedEnemy = new Vulture(player);
+            else if (spawnEnemy > 57 && spawnEnemy <= 71)
+                spawnedEnemy = new Hyena(player);
+            else if (spawnEnemy > 71 && spawnEnemy <= 85)
+                spawnedEnemy = new Deceased(player);
             else
-                spawnedEnemy = new Enemy(player);
-            
-            
+                spawnedEnemy = new Mummy(player);
 
             spawnedEnemy.LoadContent(Content);
             gameObjects.Add(spawnedEnemy);
