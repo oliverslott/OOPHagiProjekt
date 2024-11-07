@@ -26,6 +26,12 @@ namespace Project1
 
         public override void LoadContent(ContentManager contentManager)
         {
+            //Rotte bevægelse
+            rat_walk = new Texture2D[4];
+            for (int i = 0; i < rat_walk.Length; i++)
+            {
+                rat_walk[i] = contentManager.Load<Texture2D>($"walk_rat_{i + 1}");
+            }
 
             //Rotte tager skade
             rat_hurt = new Texture2D[2];
@@ -47,6 +53,17 @@ namespace Project1
         {
             ChangeAnimationSprites(rat_walk);
         }
-
+        public override void LoadAttackAnimation(ContentManager contentManager) //Rotte har ikke attack animation
+        {
+            ChangeAnimationSprites(rat_walk);
+        } 
+        public override void LoadHurtAnimation(ContentManager contentManager)
+        {
+            ChangeAnimationSprites(rat_hurt);
+        }
+        public override void LoadDeathAnimation(ContentManager contentManager)
+        {
+            ChangeAnimationSprites(rat_death);
+        }
     }
 }

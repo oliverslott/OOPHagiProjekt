@@ -100,5 +100,8 @@ namespace Project1
         }
 
         public abstract void LoadWalkAnimation(ContentManager contentManager);
+        public abstract void LoadAttackAnimation(ContentManager contentManager);
+        public abstract void LoadHurtAnimation(ContentManager contentManager);
+        public abstract void LoadDeathAnimation(ContentManager contentManager);
     }
 }

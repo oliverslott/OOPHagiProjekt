@@ -61,6 +61,18 @@ namespace Project1
         {
             ChangeAnimationSprites(scorpio_walk);
         } 
+        public override void LoadAttackAnimation(ContentManager contentManager)
+        {
+            ChangeAnimationSprites(scorpio_attack);
+        } 
+        public override void LoadHurtAnimation(ContentManager contentManager)
+        {
+            ChangeAnimationSprites(scorpio_hurt);
+        } 
+        public override void LoadDeathAnimation(ContentManager contentManager)
+        {
+            ChangeAnimationSprites(scorpio_death);
+        } 
     }
 }
 

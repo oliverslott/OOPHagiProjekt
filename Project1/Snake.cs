@@ -63,5 +63,17 @@ namespace Project1
         {
             ChangeAnimationSprites(snake_walk);
         }
+        public override void LoadAttackAnimation(ContentManager contentManager)
+        {
+            ChangeAnimationSprites(snake_attack);
+        }
+        public override void LoadHurtAnimation(ContentManager contentManager)
+        {
+            ChangeAnimationSprites(snake_hurt);
+        }
+        public override void LoadDeathAnimation(ContentManager contentManager)
+        {
+            ChangeAnimationSprites(snake_death);
+        }
     }
 }
