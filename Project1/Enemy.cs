@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace Project1
 {
-    public class Enemy : GameObject
+    public abstract class Enemy : GameObject
     {
         
         
@@ -42,24 +42,11 @@ namespace Project1
             RandomSpawn(); // Kald RandomSpawn her for at sætte en tilfældig startposition
 
             fps = 12; 
-
-
-
-
         }
 
         public override void LoadContent(ContentManager contentManager)
         {
-            enemy = contentManager.Load<Texture2D>("walk4");
-
-            enemy_walk_sprites = new Texture2D[4];
-            for (int i = 0; i < enemy_walk_sprites.Length; i++)
-            {
-                enemy_walk_sprites[i] = contentManager.Load<Texture2D>($"walk{i + 1}");
-            }
-
-            ChangeAnimationSprites(enemy_walk_sprites);
-
+            LoadWalkAnimation(contentManager);
             RandomSpawn();
         }
 
@@ -74,7 +61,7 @@ namespace Project1
 
         private void Flip()
         {
-            if (velocity.X < 0)
+            if (velocity.X > 0)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
@@ -82,7 +69,7 @@ namespace Project1
             {
                 spriteEffects = SpriteEffects.None;
             }
-        }
+        } 
 
         private void FollowPlayer(GameTime gameTime)
         {
@@ -134,7 +121,12 @@ namespace Project1
             }
         }
 
-      
+
+        public abstract void LoadWalkAnimation(ContentManager contentManager);
+        public abstract void LoadAttackAnimation(ContentManager contentManager);
+        public abstract void LoadHurtAnimation(ContentManager contentManager);
+        public abstract void LoadDeathAnimation(ContentManager contentManager);
+
     }
     
 }
