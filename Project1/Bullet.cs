@@ -24,13 +24,13 @@ namespace Project1
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Enemy enemy)
+            if (other is Enemy)
             {
                 Debug.WriteLine("Bullet hit enemy!");
                 //TODO
 
                 Game1.AddGameobjectToRemove(this);
-                Game1.AddGameobjectToRemove(enemy);
+                
             }
         }
 

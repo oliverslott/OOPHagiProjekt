@@ -22,7 +22,7 @@ namespace Project1
         private float spawnTimer;
 
         private float spawnInterval;
-        private float timeBetweenInterval = 5f;
+        private float timeBetweenInterval = 1f;
 
         public static SpriteFont spriteFont;
 

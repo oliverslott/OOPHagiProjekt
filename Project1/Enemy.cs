@@ -19,7 +19,7 @@ namespace Project1
         private Texture2D enemy;
         private Texture2D[] enemy_walk_sprites;
 
-
+        private int health = 2; // enemy health
 
 
         private static float NextFloat(float min, float max)
@@ -113,6 +113,15 @@ namespace Project1
             if (other is Enemy)
             {
                 shouldBeRemoved = true;
+            }
+            if (other is Bullet)
+            {
+                health--;
+
+                if (health <= 0)
+                {
+                    Game1.AddGameobjectToRemove(this);
+                }
             }
         }
     }
