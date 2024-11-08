@@ -896,6 +896,12 @@
 /processorParam:TextureFormat=Color
 /build:mummy_walk_6.png
 
+#begin music1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music1.mp3
+
 #begin pixel.png
 /importer:TextureImporter
 /processor:TextureProcessor

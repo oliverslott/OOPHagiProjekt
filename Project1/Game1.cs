@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace Project1
 {
@@ -46,6 +47,10 @@ namespace Project1
 
         private BuffManager buffManager;
         public static Texture2D CollisionTexture;
+
+        private Song song;
+        private float songVolume = 0.05f;
+
 
         
 
@@ -133,7 +138,11 @@ namespace Project1
 
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
 
-            
+            song = Content.Load<Song>("music1");
+
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = songVolume;
+            MediaPlayer.Play(song);
         }
 
         protected override void Update(GameTime gameTime)
@@ -171,6 +180,7 @@ namespace Project1
                 playerHealthBar.SetHealth((int)player.Health);
             }
             
+           
 
             AddGameobjects();
             RemoveGameobjects();
