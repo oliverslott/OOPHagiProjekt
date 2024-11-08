@@ -89,7 +89,7 @@ public class Player : GameObject
         //Sprite displayed when player spawns
         sprites = [front];
 
-        bulletSprite = contentManager.Load<Texture2D>("Bullet_Small"); //Gets loaded before-hand for better performance
+        bulletSprite = contentManager.Load<Texture2D>("BlueBullet"); //Gets loaded before-hand for better performance
     }
 
     public override void OnCollision(GameObject other)
