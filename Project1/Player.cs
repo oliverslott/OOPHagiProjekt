@@ -157,14 +157,14 @@ public class Player : GameObject
         {
             Shoot();
         }
-        if (keyState.IsKeyDown(Keys.Space))
-        {
-            if (bulletSoundInstance.State != SoundState.Playing)
-            {
-                bulletSoundInstance.Volume = soundEffectVolume;
-                bulletSoundInstance.Play();
-            }
-        }
+        //if (keyState.IsKeyDown(Keys.Space))
+        //{
+        //    if (bulletSoundInstance.State != SoundState.Playing)
+        //    {
+        //        bulletSoundInstance.Volume = soundEffectVolume;
+        //        bulletSoundInstance.Play();
+        //    }
+        //}
     }
 
     private void Shoot()
@@ -177,6 +177,11 @@ public class Player : GameObject
             //The reason I am not using player position here is because we are doing some weird matrix translation, which causes the mouseposition and player position to be out of sync.
             Game1.InstantiateGameobject(new Bullet(bulletSprite, position, mousePosition - Game1.GetScreenSize()/2));
             shootCooldown = ShootInterval;
+
+            //bulletSoundInstance.Volume = soundEffectVolume;
+            //bulletSoundInstance.Play();
+
+            bulletSound.Play(soundEffectVolume, 0.0f, 0.0f);
         }
     }
 
