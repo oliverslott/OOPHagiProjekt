@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -45,6 +46,8 @@ namespace Project1
 
         private BuffManager buffManager;
         public static Texture2D CollisionTexture;
+
+        
 
 
 
@@ -129,10 +132,14 @@ namespace Project1
             healthTexture.SetData(new[] { Color.Red });
 
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
+
+            
         }
 
         protected override void Update(GameTime gameTime)
         {
+            
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -163,6 +170,7 @@ namespace Project1
             {
                 playerHealthBar.SetHealth((int)player.Health);
             }
+            
 
             AddGameobjects();
             RemoveGameobjects();

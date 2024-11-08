@@ -49,18 +49,6 @@
 /processorParam:TextureFormat=Color
 /build:BuffCardBackground.png
 
-#begin BuffCardBackground.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:BuffCardBackground.png
-
 #begin Bullet_Small.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -391,30 +379,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:hurt_rat_1.png
-
-#begin hurt_rat_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:hurt_rat_1.png
-
-#begin hurt_rat_2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:hurt_rat_2.png
 
 #begin hurt_rat_2.png
 /importer:TextureImporter
@@ -1315,6 +1279,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:snake_walk_4.png
+
+#begin Sounds/pew.MP3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/pew.MP3
 
 #begin tile.png
 /importer:TextureImporter

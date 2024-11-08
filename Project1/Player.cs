@@ -24,7 +24,10 @@ public class Player : GameObject
     private float shootInterval = 0.5f;
     private float shootCooldown = 0f;
 
-    
+    private SoundEffect bulletSound;
+    private SoundEffectInstance bulletSoundInstance;
+    private float soundEffectVolume = 0.1f;
+
 
     private enum Direction
     {
@@ -95,6 +98,9 @@ public class Player : GameObject
         sprites = [front];
 
         bulletSprite = contentManager.Load<Texture2D>("Bullet_Small"); //Gets loaded before-hand for better performance
+
+        bulletSound = contentManager.Load<SoundEffect>($"Sounds\\pew");
+        bulletSoundInstance = bulletSound.CreateInstance();
     }
 
     public override void OnCollision(GameObject other)
@@ -150,6 +156,14 @@ public class Player : GameObject
         if (keyState.IsKeyDown(Keys.Space))
         {
             Shoot();
+        }
+        if (keyState.IsKeyDown(Keys.Space))
+        {
+            if (bulletSoundInstance.State != SoundState.Playing)
+            {
+                bulletSoundInstance.Volume = soundEffectVolume;
+                bulletSoundInstance.Play();
+            }
         }
     }
 
