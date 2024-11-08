@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Project1
 {
@@ -13,13 +14,15 @@ namespace Project1
         private List<BuffCardUI> buffCards = new List<BuffCardUI>();
         private bool isOpen = false;
         private KeyboardState prevKeyboardState;
+        private Texture2D cardBackgroundSprite;
+        private SpriteFont spriteFont;
+        private int spaceBetween = 5;
 
         public bool IsOpen { get => isOpen; }
 
         public BuffManager(Player player)
         {
             this.player = player;
-            buffCards.Add(new BuffCardUI(new ShootSpeedBuff(), this));
         }
 
         public void AddBuff(Buff buff)
@@ -31,9 +34,33 @@ namespace Project1
 
         public void LoadContent(ContentManager contentManager)
         {
-            foreach(BuffCardUI buffCardUI in buffCards)
+            cardBackgroundSprite = contentManager.Load<Texture2D>("BuffCardBackground");
+            spriteFont = contentManager.Load<SpriteFont>("font1");
+
+            GenerateCards();
+        }
+
+        public void GenerateCards()
+        {
+            buffCards.Clear();
+            for (int i = 0; i < 3; i++)
             {
-                buffCardUI.LoadContent(contentManager); //TODO: Might be more performant to load all content at once instead of every single one?
+                buffCards.Add(new BuffCardUI(new ShootSpeedBuff(), this, cardBackgroundSprite, spriteFont));
+            }
+
+            PositionCards();
+        }
+
+        //Dynamically positions cards based on how many options there are
+        private void PositionCards()
+        {
+            //ui is hard
+            int containerWidth = (cardBackgroundSprite.Width + spaceBetween) * buffCards.Count;
+            for (int i = 0; i < buffCards.Count; i++)
+            {
+                //dont look
+                Vector2 cardPos = new Vector2( (cardBackgroundSprite.Width + spaceBetween) * i + Game1.GetScreenSize().X/2 - containerWidth/2, Game1.GetScreenSize().Y / 2 - cardBackgroundSprite.Height / 2);
+                buffCards[i].Position = cardPos;
             }
         }
 

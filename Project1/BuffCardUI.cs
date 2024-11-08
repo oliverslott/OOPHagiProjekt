@@ -17,23 +17,28 @@ namespace Project1
         private Vector2 position;
         private bool hovering = false;
         private Buff buff;
-        private SpriteFont spriteFont;
         private BuffManager buffManager;
+        private SpriteFont spriteFont;
+        public Vector2 Position { get => position; set => position = value; }
 
-        public BuffCardUI(Buff buff, BuffManager buffManager)
+        public BuffCardUI(Buff buff, BuffManager buffManager, Texture2D backgroundSprite, SpriteFont spriteFont)
         {
             this.buff = buff;
             this.buffManager = buffManager;
+            this.backgroundSprite = backgroundSprite;
+            this.spriteFont = spriteFont;
 
             description = buff.Description;
         }
 
-        public void LoadContent(ContentManager contentManager)
-        {
-            backgroundSprite = contentManager.Load<Texture2D>("BuffCardBackground");
-            position = new Vector2(Game1.GetScreenSize().X / 2 - backgroundSprite.Width / 2, Game1.GetScreenSize().Y / 2 - backgroundSprite.Height / 2);
-            spriteFont = contentManager.Load<SpriteFont>("font1");
-        }
+
+        //public void LoadContent(ContentManager contentManager)
+        //{
+        //    backgroundSprite = contentManager.Load<Texture2D>("BuffCardBackground");
+        //    //position = new Vector2(Game1.GetScreenSize().X / 2 - backgroundSprite.Width / 2, Game1.GetScreenSize().Y / 2 - backgroundSprite.Height / 2);
+        //    size = new Vector2(backgroundSprite.Width, backgroundSprite.Height);
+        //    spriteFont = contentManager.Load<SpriteFont>("font1");
+        //}
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(backgroundSprite, position, Color.White);
