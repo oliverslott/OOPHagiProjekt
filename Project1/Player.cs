@@ -38,7 +38,7 @@ public class Player : GameObject
 
     //public float Health { get => health; set => health = value; }
 
-    public float Speed { get => speed; set => health = value; }
+    public float Speed { get => speed; set => speed = value; }
 
     //Public setter for buffmanager
     public float ShootInterval { get => shootInterval; set => shootInterval = value; }

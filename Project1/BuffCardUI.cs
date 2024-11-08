@@ -55,7 +55,7 @@ namespace Project1
 
             if (hovering)
             {
-                Mouse.SetCursor(MouseCursor.Hand);
+                //Mouse.SetCursor(MouseCursor.Hand); Dropping the cursor change for now, they currently fight each other
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     Click();
@@ -63,7 +63,7 @@ namespace Project1
             }
             else
             {
-                Mouse.SetCursor(MouseCursor.Arrow);
+                //Mouse.SetCursor(MouseCursor.Arrow);
             }
         }
 

@@ -16,7 +16,7 @@ namespace Project1
         private KeyboardState prevKeyboardState;
         private Texture2D cardBackgroundSprite;
         private SpriteFont spriteFont;
-        private int spaceBetween = 5;
+        private const int spaceBetweenCards = 15;
 
         public bool IsOpen { get => isOpen; }
 
@@ -40,13 +40,17 @@ namespace Project1
             GenerateCards();
         }
 
+        public void AddCardBuff(Buff buff)
+        {
+            buffCards.Add(new BuffCardUI(buff, this, cardBackgroundSprite, spriteFont));
+        }
+
         public void GenerateCards()
         {
             buffCards.Clear();
-            for (int i = 0; i < 3; i++)
-            {
-                buffCards.Add(new BuffCardUI(new ShootSpeedBuff(), this, cardBackgroundSprite, spriteFont));
-            }
+
+            AddCardBuff(new ShootSpeedBuff());
+            AddCardBuff(new MovementSpeedBuff());
 
             PositionCards();
         }
@@ -55,11 +59,11 @@ namespace Project1
         private void PositionCards()
         {
             //ui is hard
-            int containerWidth = (cardBackgroundSprite.Width + spaceBetween) * buffCards.Count;
+            int containerWidth = (cardBackgroundSprite.Width + spaceBetweenCards) * buffCards.Count;
             for (int i = 0; i < buffCards.Count; i++)
             {
                 //dont look
-                Vector2 cardPos = new Vector2( (cardBackgroundSprite.Width + spaceBetween) * i + Game1.GetScreenSize().X/2 - containerWidth/2, Game1.GetScreenSize().Y / 2 - cardBackgroundSprite.Height / 2);
+                Vector2 cardPos = new Vector2( (cardBackgroundSprite.Width + spaceBetweenCards) * i + Game1.GetScreenSize().X/2 - containerWidth/2, Game1.GetScreenSize().Y / 2 - cardBackgroundSprite.Height / 2);
                 buffCards[i].Position = cardPos;
             }
         }
