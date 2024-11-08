@@ -32,7 +32,7 @@ public abstract class GameObject
 
     public abstract void LoadContent(ContentManager contentManager);
 
-    public void Draw(SpriteBatch spriteBatch)
+    public virtual void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Sprite, Position, null, Color.White, rotation, new Vector2(Sprite.Width/2, Sprite.Height/2), scale, spriteEffects, 0);
 

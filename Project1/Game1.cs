@@ -48,11 +48,15 @@ namespace Project1
         private BuffManager buffManager;
         public static Texture2D CollisionTexture;
 
+
         private Song song;
         private float songVolume = 0.02f;
 
 
         
+
+        public static Texture2D healthTexture;
+
 
 
 
@@ -133,7 +137,7 @@ namespace Project1
                 gameobject.LoadContent(Content);
             }
 
-            Texture2D healthTexture = new Texture2D(GraphicsDevice, 1, 1);
+            healthTexture = new Texture2D(GraphicsDevice, 1, 1);
             healthTexture.SetData(new[] { Color.Red });
 
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);

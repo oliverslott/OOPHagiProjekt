@@ -1,12 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
-using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
 
 namespace Project1
@@ -19,9 +14,10 @@ namespace Project1
 
         private Texture2D enemy;
         private Texture2D[] enemy_walk_sprites;
+        private const int healthbar_width = 100;
 
-        private int health = 2; // enemy health
-        //private int maxHealth;
+        protected int maxHealth = 10; // enemy health
+        protected int currentHealth;
 
 
         private static float NextFloat(float min, float max)
@@ -32,10 +28,12 @@ namespace Project1
         private Player player;
 
 
+
         public Enemy(Player player)
         {
             this.player = player;
-            
+            currentHealth = maxHealth;
+
             scale = 2f;
             speed = NextFloat(50, 75);
             velocity = new Vector2(0, 1);
@@ -57,6 +55,20 @@ namespace Project1
             Animate(gameTime);
             Flip();
             
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            DrawHealthBar(spriteBatch);
+        }
+
+        private void DrawHealthBar(SpriteBatch spriteBatch)
+        {
+            float healthPercentage = (float)currentHealth / maxHealth;
+            int healthWidth = (int)(healthPercentage * healthbar_width);
+            spriteBatch.Draw(Game1.healthTexture, new Rectangle((int)position.X - healthbar_width / 2, (int)position.Y+55, healthWidth, 5), Color.White);
         }
 
         private void Flip()
@@ -105,9 +117,9 @@ namespace Project1
             //}
             if (other is Bullet)
             {
-                health--;
+                currentHealth--;
 
-                if (health <= 0)
+                if (currentHealth <= 0)
                 {
                     Game1.AddGameobjectToRemove(this);
                 }
