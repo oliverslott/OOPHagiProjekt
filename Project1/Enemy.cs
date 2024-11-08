@@ -20,7 +20,7 @@ namespace Project1
         private Texture2D enemy;
         private Texture2D[] enemy_walk_sprites;
 
-        private int health = 2; // enemy health
+        protected int maxHealth; // enemy health
         //private int maxHealth;
 
 
@@ -105,9 +105,9 @@ namespace Project1
             //}
             if (other is Bullet)
             {
-                health--;
+                maxHealth--;
 
-                if (health <= 0)
+                if (maxHealth <= 0)
                 {
                     Game1.AddGameobjectToRemove(this);
                 }
