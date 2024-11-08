@@ -31,20 +31,13 @@ namespace Project1
             description = buff.Description;
         }
 
-
-        //public void LoadContent(ContentManager contentManager)
-        //{
-        //    backgroundSprite = contentManager.Load<Texture2D>("BuffCardBackground");
-        //    //position = new Vector2(Game1.GetScreenSize().X / 2 - backgroundSprite.Width / 2, Game1.GetScreenSize().Y / 2 - backgroundSprite.Height / 2);
-        //    size = new Vector2(backgroundSprite.Width, backgroundSprite.Height);
-        //    spriteFont = contentManager.Load<SpriteFont>("font1");
-        //}
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(backgroundSprite, position, Color.White);
             Vector2 stringSize = spriteFont.MeasureString(description);
-            spriteBatch.DrawString(spriteFont, description, new Vector2(position.X + backgroundSprite.Width/2, position.Y + backgroundSprite.Height/2), Color.White, 0, stringSize/2, 1f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(spriteFont, description, new Vector2(position.X + backgroundSprite.Width/2, position.Y + backgroundSprite.Height/2), Color.White, 0, stringSize/2, 0.38f, SpriteEffects.None, 0);
         }
+
         public void Update(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
