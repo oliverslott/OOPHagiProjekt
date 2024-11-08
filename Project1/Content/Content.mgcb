@@ -1772,3 +1772,9 @@
 /processorParam:TextureFormat=Color
 /build:walk4.png
 
+#begin walkingGame.MP3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:walkingGame.MP3
+

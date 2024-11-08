@@ -49,7 +49,7 @@ namespace Project1
         public static Texture2D CollisionTexture;
 
         private Song song;
-        private float songVolume = 0.05f;
+        private float songVolume = 0.0f;
 
 
         
