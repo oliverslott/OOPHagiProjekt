@@ -12,14 +12,12 @@ namespace Project1
         private Texture2D[] rat_walk;
         private Texture2D[] rat_hurt;
         private Texture2D[] rat_death;
-        protected float rat_speed;
-        protected int rat_health;
-        protected int rat_dmg;
+
         public Rat(Player player) : base(player)
         {
-            this.rat_speed = 0.5f;
-            this.rat_health = 2;
-            this.rat_dmg = 1;
+            maxHealth = 10;
+            //speed = 
+            //damage =
 
             RandomSpawn();
         }
