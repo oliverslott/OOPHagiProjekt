@@ -21,7 +21,7 @@ namespace Project1
         private Texture2D[] enemy_walk_sprites;
 
         protected int maxHealth; // enemy health
-        protected int damage; //enemy damage
+        protected float damage; //enemy damage
 
 
         protected static float NextFloat(float min, float max) //Enemy speed
@@ -35,6 +35,7 @@ namespace Project1
         public Enemy(Player player)
         {
             this.player = player;
+
             
             scale = 2f;
             velocity = new Vector2(0, 1);
@@ -119,7 +120,6 @@ namespace Project1
 
             }
         }
-
 
         public abstract void LoadWalkAnimation(ContentManager contentManager);
         public abstract void LoadAttackAnimation(ContentManager contentManager);

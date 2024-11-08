@@ -21,7 +21,7 @@ namespace Project1
         {
             maxHealth = 10;
             speed = NextFloat(150,160);
-            damage = 4;
+            damage = 4/6.0f;
 
             RandomSpawn();
         }
