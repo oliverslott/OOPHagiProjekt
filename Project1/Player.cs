@@ -24,7 +24,14 @@ public class Player : GameObject
     private float shootInterval = 0.5f;
     private float shootCooldown = 0f;
 
+    private SoundEffect bulletSound;
+    private SoundEffectInstance bulletSoundInstance;
+    private float soundEffectVolume = 0.1f;
+
+    private SoundEffect walking;
+    private SoundEffectInstance walkingInstance;
     
+
 
     private enum Direction
     {
@@ -95,6 +102,14 @@ public class Player : GameObject
         sprites = [front];
 
         bulletSprite = contentManager.Load<Texture2D>("Bullet_Small"); //Gets loaded before-hand for better performance
+
+        bulletSound = contentManager.Load<SoundEffect>($"Sounds\\pew");
+        bulletSoundInstance = bulletSound.CreateInstance();
+
+        walking = contentManager.Load<SoundEffect>("walkingGame");
+        walkingInstance = walking.CreateInstance();
+
+
     }
 
     public override void OnCollision(GameObject other)
@@ -151,6 +166,22 @@ public class Player : GameObject
         {
             Shoot();
         }
+        if (keyState.IsKeyDown(Keys.W) || keyState.IsKeyDown(Keys.A) ||
+    keyState.IsKeyDown(Keys.S) || keyState.IsKeyDown(Keys.D))
+        {
+            if (walkingInstance.State != SoundState.Playing)
+            {
+                walkingInstance.Volume = soundEffectVolume;
+                walkingInstance.Play();
+            }
+        }
+        else
+        {
+            if (walkingInstance.State == SoundState.Playing)
+            {
+                walkingInstance.Stop();
+            }
+        }
     }
 
     private void Shoot()
@@ -163,6 +194,8 @@ public class Player : GameObject
             //The reason I am not using player position here is because we are doing some weird matrix translation, which causes the mouseposition and player position to be out of sync.
             Game1.InstantiateGameobject(new Bullet(bulletSprite, position, mousePosition - Game1.GetScreenSize()/2));
             shootCooldown = ShootInterval;
+
+            bulletSound.Play(soundEffectVolume, 0.0f, 0.0f);
         }
     }
 
