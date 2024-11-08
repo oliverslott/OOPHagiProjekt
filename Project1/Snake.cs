@@ -18,9 +18,9 @@ namespace Project1
         protected int snake_dmg;
         public Snake(Player player) : base(player)
         {
-            this.snake_speed = 1.2f;
-            this.snake_health = 3;
-            this.snake_dmg = 3;
+            maxHealth = 2;
+            speed = NextFloat(40,50);
+            damage = 5;
 
             RandomSpawn();
         }

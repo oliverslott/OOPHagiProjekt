@@ -227,17 +227,17 @@ namespace Project1
             Enemy spawnedEnemy;
 
             int spawnEnemy = rnd.Next(100);
-            if (spawnEnemy <= 15)
+            if (spawnEnemy <= 20)
                 spawnedEnemy = new Rat(player);
-            else if (spawnEnemy > 15 && spawnEnemy <= 29)
+            else if (spawnEnemy > 40 && spawnEnemy <= 35)
                 spawnedEnemy = new Snake(player);
-            else if (spawnEnemy > 29 && spawnEnemy <= 43)
+            else if (spawnEnemy > 35 && spawnEnemy <= 50)
                 spawnedEnemy = new Scorpio(player);
-            else if (spawnEnemy > 43 && spawnEnemy <= 57)
+            else if (spawnEnemy > 50 && spawnEnemy <= 65)
                 spawnedEnemy = new Vulture(player);
-            else if (spawnEnemy > 57 && spawnEnemy <= 71)
+            else if (spawnEnemy > 65 && spawnEnemy <= 80)
                 spawnedEnemy = new Hyena(player);
-            else if (spawnEnemy > 71 && spawnEnemy <= 85)
+            else if (spawnEnemy > 80 && spawnEnemy <= 92)
                 spawnedEnemy = new Deceased(player);
             else
                 spawnedEnemy = new Mummy(player);

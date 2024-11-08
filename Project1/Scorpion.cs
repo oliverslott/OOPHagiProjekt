@@ -18,9 +18,9 @@ namespace Project1
         protected int scorpio_dmg;
         public Scorpio(Player player) : base(player)
         {
-            this.scorpio_speed = 0.2f;
-            this.scorpio_health = 2;
-            this.scorpio_dmg = 5;
+            maxHealth = 1;
+            speed = NextFloat(100,110);
+            damage = 5;
 
             RandomSpawn();
         }

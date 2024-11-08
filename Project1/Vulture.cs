@@ -19,9 +19,9 @@ namespace Project1
 
         public Vulture(Player player) : base(player)
         {
-            this.vulture_speed = 0.1f;
-            this.vulture_health = 50;
-            this.vulture_dmg = 10;
+            maxHealth = 4;
+            speed = NextFloat(250,260);
+            damage = 3;
 
             RandomSpawn();
         }

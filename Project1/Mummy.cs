@@ -18,9 +18,9 @@ namespace Project1
 
         public Mummy(Player player) : base(player)
         {
-            this.mummy_speed = 0.1f;
-            this.mummy_health = 50;
-            this.mummy_dmg = 10;
+            maxHealth = 50;
+            speed = NextFloat(60,70);
+            damage = 15;
 
             RandomSpawn();
         }

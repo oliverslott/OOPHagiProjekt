@@ -18,9 +18,9 @@ namespace Project1
         protected int deceased_dmg;
         public Deceased(Player player) : base(player)
         {
-            this.deceased_speed = 0.1f;
-            this.deceased_health = 50;
-            this.deceased_dmg = 10;
+            maxHealth = 20;
+            speed = NextFloat(40,50);
+            damage = 12;
 
             RandomSpawn();
         }

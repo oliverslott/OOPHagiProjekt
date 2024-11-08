@@ -15,9 +15,9 @@ namespace Project1
 
         public Rat(Player player) : base(player)
         {
-            maxHealth = 10;
-            //speed = 
-            //damage =
+            maxHealth = 1;
+            speed = NextFloat(150,160);
+            damage = 2;
 
             RandomSpawn();
         }

@@ -19,9 +19,9 @@ namespace Project1
 
         public Hyena(Player player) : base(player)
         {
-            this.hyena_speed = 0.1f;
-            this.hyena_health = 50;
-            this.hyena_dmg = 10;
+            maxHealth = 10;
+            speed = NextFloat(150,160);
+            damage = 4;
 
             RandomSpawn();
         }
