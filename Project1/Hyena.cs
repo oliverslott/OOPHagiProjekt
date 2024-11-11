@@ -17,11 +17,10 @@ namespace Project1
         protected int hyena_health;
         protected int hyena_dmg;
 
-        public Hyena(Player player) : base(player)
+        public Hyena(Player player) : base(player, 10)
         {
-            this.hyena_speed = 0.1f;
-            this.hyena_health = 50;
-            this.hyena_dmg = 10;
+            speed = NextFloat(150,160);
+            damage = 4/6.0f;
 
             RandomSpawn();
         }

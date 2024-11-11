@@ -16,11 +16,14 @@ namespace Project1
         private Texture2D[] enemy_walk_sprites;
         private const int healthbar_width = 100;
 
-        protected int maxHealth = 10; // enemy health
+
+        protected int maxHealth; // enemy health
+        protected float damage; //enemy damage
         protected int currentHealth;
 
 
-        private static float NextFloat(float min, float max)
+
+        protected static float NextFloat(float min, float max) //Enemy speed
         {
             return (float)(random.NextDouble() * (max - min) + min);
         }
@@ -29,13 +32,13 @@ namespace Project1
 
 
 
-        public Enemy(Player player)
+        public Enemy(Player player, int maxHealth)
         {
             this.player = player;
+            this.maxHealth = maxHealth;
             currentHealth = maxHealth;
 
             scale = 2f;
-            speed = NextFloat(50, 75);
             velocity = new Vector2(0, 1);
             RandomSpawn(); // Kald RandomSpawn her for at sætte en tilfældig startposition
 
@@ -126,13 +129,12 @@ namespace Project1
             }
             if (other is Player player)
             {
-                player.Health -= 1; // Reducer HP med 
+                player.Health -= damage; // Reducer HP med 
                 Debug.WriteLine($"Player hit! Health is now: {player.Health}");
 
 
             }
         }
-
 
         public abstract void LoadWalkAnimation(ContentManager contentManager);
         public abstract void LoadAttackAnimation(ContentManager contentManager);

@@ -16,11 +16,10 @@ namespace Project1
         protected float scorpio_speed;
         protected int scorpio_health;
         protected int scorpio_dmg;
-        public Scorpio(Player player) : base(player)
+        public Scorpio(Player player) : base(player, 1)
         {
-            this.scorpio_speed = 0.2f;
-            this.scorpio_health = 2;
-            this.scorpio_dmg = 5;
+            speed = NextFloat(100,110);
+            damage = 5/6.0f;
 
             RandomSpawn();
         }

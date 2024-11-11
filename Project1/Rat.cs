@@ -13,11 +13,11 @@ namespace Project1
         private Texture2D[] rat_hurt;
         private Texture2D[] rat_death;
 
-        public Rat(Player player) : base(player)
+        public Rat(Player player) : base(player, 2)
         {
-            maxHealth = 10;
-            //speed = 
-            //damage =
+            maxHealth = 2;
+            speed = NextFloat(150,160);
+            damage = 2/6.0f;
 
             RandomSpawn();
         }
