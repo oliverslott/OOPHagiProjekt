@@ -5,8 +5,10 @@ using System.Data.Common;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace Project1
 {
@@ -44,7 +46,18 @@ namespace Project1
 
         private Player player;
 
+        private BuffManager buffManager;
         public static Texture2D CollisionTexture;
+
+
+        private Song song;
+        private float songVolume = 0.02f;
+
+
+        
+
+        public static Texture2D healthTexture;
+
 
 
 
@@ -103,6 +116,7 @@ namespace Project1
                 }
             }
             player = new Player();
+            buffManager = new BuffManager(player);
             gameObjects.Add(player);
 
             base.Initialize();
@@ -117,19 +131,29 @@ namespace Project1
             collisionTexture = Content.Load<Texture2D>("pixel");
             CollisionTexture = Content.Load<Texture2D>("pixel");
 
+            buffManager.LoadContent(Content);
+
             foreach (GameObject gameobject in gameObjects)
             {
                 gameobject.LoadContent(Content);
             }
 
-            Texture2D healthTexture = new Texture2D(GraphicsDevice, 1, 1);
+            healthTexture = new Texture2D(GraphicsDevice, 1, 1);
             healthTexture.SetData(new[] { Color.Red });
 
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
+
+            song = Content.Load<Song>("music1");
+
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = songVolume;
+            MediaPlayer.Play(song);
         }
 
         protected override void Update(GameTime gameTime)
         {
+            
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -160,11 +184,15 @@ namespace Project1
             {
                 playerHealthBar.SetHealth((int)player.Health);
             }
+            
+           
 
             AddGameobjects();
             RemoveGameobjects();
 
            
+
+            buffManager.UpdateUI(gameTime);
 
             base.Update(gameTime);
         }
@@ -199,6 +227,7 @@ namespace Project1
 
             //Place all ui elements here (things that should stay on screen no matter the camera position)
 
+            buffManager.DrawUI(_spriteBatch);
             playerHealthBar.Draw(_spriteBatch);
 
             _spriteBatch.End();

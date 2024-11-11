@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:back.png
 
+#begin BuffCardBackground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BuffCardBackground.png
+
 #begin BlueBullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -348,6 +360,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:enemytest.png
+
+#begin font1.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font1.spritefont
 
 #begin front.png
 /importer:TextureImporter
@@ -889,6 +908,12 @@
 /processorParam:TextureFormat=Color
 /build:mummy_walk_6.png
 
+#begin music1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music1.mp3
+
 #begin pixel.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1272,6 +1297,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:snake_walk_4.png
+
+#begin Sounds/pew.MP3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/pew.MP3
 
 #begin tile.png
 /importer:TextureImporter
@@ -1752,4 +1783,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:walk4.png
+
+#begin walkingGame.MP3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:walkingGame.MP3
 
