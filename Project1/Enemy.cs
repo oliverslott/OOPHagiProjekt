@@ -124,10 +124,11 @@ namespace Project1
 
                 if (currentHealth <= 0)
                 {
+                    player.AddXp(10); //TODO: Should different enemies have different xp drop?
                     Game1.AddGameobjectToRemove(this);
                 }
             }
-            if (other is Player player)
+            if (other is Player)
             {
                 player.Health -= damage; // Reducer HP med 
                 Debug.WriteLine($"Player hit! Health is now: {player.Health}");
