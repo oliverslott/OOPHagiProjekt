@@ -17,9 +17,8 @@ namespace Project1
         protected int hyena_health;
         protected int hyena_dmg;
 
-        public Hyena(Player player) : base(player)
+        public Hyena(Player player) : base(player, 10)
         {
-            maxHealth = 10;
             speed = NextFloat(150,160);
             damage = 4/6.0f;
 

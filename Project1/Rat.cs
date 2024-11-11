@@ -13,7 +13,7 @@ namespace Project1
         private Texture2D[] rat_hurt;
         private Texture2D[] rat_death;
 
-        public Rat(Player player) : base(player)
+        public Rat(Player player) : base(player, 2)
         {
             maxHealth = 2;
             speed = NextFloat(150,160);

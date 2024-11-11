@@ -32,9 +32,10 @@ namespace Project1
 
 
 
-        public Enemy(Player player)
+        public Enemy(Player player, int maxHealth)
         {
             this.player = player;
+            this.maxHealth = maxHealth;
             currentHealth = maxHealth;
 
             scale = 2f;

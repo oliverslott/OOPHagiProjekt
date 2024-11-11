@@ -16,9 +16,8 @@ namespace Project1
         protected float scorpio_speed;
         protected int scorpio_health;
         protected int scorpio_dmg;
-        public Scorpio(Player player) : base(player)
+        public Scorpio(Player player) : base(player, 1)
         {
-            maxHealth = 1;
             speed = NextFloat(100,110);
             damage = 5/6.0f;
 

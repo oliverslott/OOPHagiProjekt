@@ -17,9 +17,8 @@ namespace Project1
         protected int vulture_health;
         protected int vulture_dmg;
 
-        public Vulture(Player player) : base(player)
+        public Vulture(Player player) : base(player, 4)
         {
-            maxHealth = 4;
             speed = NextFloat(250,260);
             damage = 2/6.0f;
 

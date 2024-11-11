@@ -16,7 +16,7 @@ namespace Project1
         protected float snake_speed;
         protected int snake_health;
         protected int snake_dmg;
-        public Snake(Player player) : base(player)
+        public Snake(Player player) : base(player, 2)
         {
             maxHealth = 2;
             speed = NextFloat(40,50);

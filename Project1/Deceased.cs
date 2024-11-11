@@ -16,9 +16,8 @@ namespace Project1
         protected float deceased_speed;
         protected int deceased_health;
         protected int deceased_dmg;
-        public Deceased(Player player) : base(player)
+        public Deceased(Player player) : base(player, 20)
         {
-            maxHealth = 20;
             speed = NextFloat(40,50);
             damage = 12/6.0f;
 

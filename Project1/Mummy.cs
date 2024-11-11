@@ -16,9 +16,8 @@ namespace Project1
         protected int mummy_health;
         protected int mummy_dmg;
 
-        public Mummy(Player player) : base(player)
+        public Mummy(Player player) : base(player, 35)
         {
-            maxHealth = 35;
             speed = NextFloat(60,70);
             damage = 15/6.0f;
 
