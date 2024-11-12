@@ -15,13 +15,11 @@ namespace Project1
     /// </summary>
     public class PlayerLevelUI
     {
-        private BuffManager buffManager;
         private Player player;
         private SpriteFont spriteFont;
 
-        public PlayerLevelUI(BuffManager buffManager, Player player)
+        public PlayerLevelUI(Player player)
         {
-            this.buffManager = buffManager;
             this.player = player;
         }
 

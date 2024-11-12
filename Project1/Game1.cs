@@ -115,7 +115,7 @@ namespace Project1
             }
             player = new Player();
             buffManager = new BuffManager(player);
-            playerLevelUI = new PlayerLevelUI(buffManager, player);
+            playerLevelUI = new PlayerLevelUI(player);
             gameObjects.Add(player);
 
             base.Initialize();
