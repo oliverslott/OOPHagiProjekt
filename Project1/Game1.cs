@@ -18,6 +18,8 @@ namespace Project1
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private SpriteFont textFont;
+
         private List<GameObject> gameObjects;
 
         private static List<GameObject> gameObjectsToRemove;
@@ -34,7 +36,7 @@ namespace Project1
 
         private Texture2D collisionTexture;
 
-        public static bool gameOver;
+        private bool gameOver = false;
 
 
         private HealthBar playerHealthBar;
@@ -70,6 +72,8 @@ namespace Project1
             screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
+
         }
 
         public static Vector2 GetScreenSize()
@@ -125,7 +129,10 @@ namespace Project1
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //spriteFont = Content.Load<SpriteFont>("font2"); TODO
+            //spriteFont = Content.Load<SpriteFont>("font2");
+            //TODO
+
+            textFont = Content.Load<SpriteFont>("text");
 
             collisionTexture = Content.Load<Texture2D>("pixel");
             CollisionTexture = Content.Load<Texture2D>("pixel");
@@ -153,6 +160,12 @@ namespace Project1
         {
             
 
+            if (gameOver)
+            {
+                MediaPlayer.Stop();
+                return;
+            }
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -183,8 +196,12 @@ namespace Project1
             {
                 playerHealthBar.SetHealth((int)player.Health);
             }
-            
-           
+
+            if (player != null && player.Health <= 0)
+            {
+                gameOver = true;
+                //Exit();
+            }
 
             AddGameobjects();
             RemoveGameobjects();
@@ -205,6 +222,31 @@ namespace Project1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            if (gameOver)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+                Vector2 textPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
+                _spriteBatch.DrawString(textFont, $"GAME OVER", textPosition, Color.Green);
+                _spriteBatch.End();
+                return;
+
+                // Tegn "Game Over"-skærmen
+                //GraphicsDevice.Clear(Color.Black);
+
+                //_spriteBatch.Begin();
+                //string gameOverText = "Game Over";
+                //Vector2 textSize = textFont.MeasureString(gameOverText);
+                //Vector2 textPosition = new Vector2((screenSize.X - textSize.X) / 2, (screenSize.Y - textSize.Y) / 2);
+
+                //_spriteBatch.DrawString(textFont, gameOverText, textPosition, Color.White);
+                //_spriteBatch.End();
+
+            }
+
+
+
+
             //Move the camera based on the player position
             Matrix cameraTransform = Matrix.CreateTranslation(-player.Position.X+screenSize.X/2, -player.Position.Y+screenSize.Y/2, 0);
 
@@ -218,6 +260,8 @@ namespace Project1
                 DrawCollisionBox(gameobject);
 #endif
             }
+
+             
 
             _spriteBatch.End();
 
