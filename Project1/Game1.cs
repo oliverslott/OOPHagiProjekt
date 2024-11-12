@@ -24,12 +24,8 @@ namespace Project1
         private static List<GameObject> gameObjectsToRemove;
         private static List<GameObject> gameObjectsToAdd;
 
-        private float spawnTimer;
-
         private float spawnInterval;
         private float timeBetweenInterval = 1f;
-
-        public static SpriteFont spriteFont;
 
         private static Vector2 screenSize;
 
@@ -48,7 +44,6 @@ namespace Project1
 
         private BuffManager buffManager;
         private PlayerLevelUI playerLevelUI;
-        public static Texture2D CollisionTexture;
         public static bool isPaused = false;
 
 
@@ -82,7 +77,6 @@ namespace Project1
 
         protected override void Initialize()
         {
-            spawnTimer = 0f;
             spawnInterval = 5;
 
 
@@ -131,10 +125,7 @@ namespace Project1
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //spriteFont = Content.Load<SpriteFont>("font2"); TODO
-
             collisionTexture = Content.Load<Texture2D>("pixel");
-            CollisionTexture = Content.Load<Texture2D>("pixel");
 
             buffManager.LoadContent(Content);
             playerLevelUI.LoadContent(Content);
