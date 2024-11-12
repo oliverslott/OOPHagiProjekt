@@ -7,6 +7,10 @@ using System.Diagnostics;
 
 namespace Project1
 {
+    /// <summary>
+    /// BuffManager has the responsibility of applying buffs to the player and drawing the buff cards the player can click on.
+    /// Made by Oliver
+    /// </summary>
     public class BuffManager
     {
         private Player player;
