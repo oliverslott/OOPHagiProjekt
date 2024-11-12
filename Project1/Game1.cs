@@ -163,7 +163,13 @@ namespace Project1
             if (gameOver)
             {
                 MediaPlayer.Stop();
+
+                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                {
+                    ResetGame();
+                }
                 return;
+                
             }
             
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -226,21 +232,14 @@ namespace Project1
             {
                 GraphicsDevice.Clear(Color.Black);
                 _spriteBatch.Begin();
-                Vector2 textPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-                _spriteBatch.DrawString(textFont, $"GAME OVER", textPosition, Color.Green);
+                Vector2 textPosition1 = new Vector2(_graphics.PreferredBackBufferWidth / 2 - 200, _graphics.PreferredBackBufferHeight / 2 - 50);
+                Vector2 textPosition2 = new Vector2(_graphics.PreferredBackBufferWidth / 2 - 250, _graphics.PreferredBackBufferHeight / 2 + 200);
+                _spriteBatch.DrawString(textFont, $"GAME OVER", textPosition1, Color.Green);
+                _spriteBatch.DrawString(textFont, $"Press R to Restart", textPosition2, Color.Green);
                 _spriteBatch.End();
                 return;
 
-                // Tegn "Game Over"-skærmen
-                //GraphicsDevice.Clear(Color.Black);
-
-                //_spriteBatch.Begin();
-                //string gameOverText = "Game Over";
-                //Vector2 textSize = textFont.MeasureString(gameOverText);
-                //Vector2 textPosition = new Vector2((screenSize.X - textSize.X) / 2, (screenSize.Y - textSize.Y) / 2);
-
-                //_spriteBatch.DrawString(textFont, gameOverText, textPosition, Color.White);
-                //_spriteBatch.End();
+                
 
             }
 
@@ -288,6 +287,63 @@ namespace Project1
             }
 
             gameObjectsToAdd.Clear();
+        }
+
+        private void ResetGame()
+        {
+            gameOver = false;
+
+            tileSprite = Content.Load<Texture2D>("tile");
+            tileSprite2 = Content.Load<Texture2D>("tile2");
+
+            Random rand = new Random();
+
+            for (int x = 0; x < 50; x++)
+            {
+                for (int y = 0; y < 50; y++)
+                {
+                    Texture2D chosenSprite;
+                    switch (rand.Next(0, 2))
+                    {
+                        case 0:
+                            chosenSprite = tileSprite;
+                            break;
+                        case 1:
+                            chosenSprite = tileSprite2;
+                            break;
+                        default:
+                            chosenSprite = tileSprite;
+                            break;
+                    }
+                    Tile newTile = new Tile(chosenSprite);
+                    newTile.Position = new Vector2(x * newTile.Size.X, y * newTile.Size.Y);
+                    gameObjects.Add(newTile);
+                }
+            }
+
+
+
+            // Nulstil spillerens sundhed og position
+            player.Health = 1000;
+            player.Position = new Vector2(screenSize.X / 2, screenSize.Y - 100);
+
+            // Ryd alle fjender og andre spilobjekter undtagen spilleren
+            gameObjects.Clear();
+            gameObjects.Add(player);
+
+            // Ryd bufferlisterne
+            gameObjectsToAdd.Clear();
+            gameObjectsToRemove.Clear();
+
+            // Nulstil andre spilrelaterede variabler
+            spawnTimer = 0f;
+            spawnInterval = 5;
+
+            // Genstart musikken
+            MediaPlayer.Play(song);
+
+            
+
         }
 
         public static void InstantiateGameobject(GameObject gameObject)
