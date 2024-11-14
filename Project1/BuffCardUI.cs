@@ -7,8 +7,10 @@ using System.Diagnostics;
 namespace Project1
 {
     /// <summary>
+    /// Renderes a buff card on screen and handles click event which gives the player the selected buff. 
     /// I don't think UI stuff should be gameobjects, because gameobject superclass simply has too many things that UI stuff don't need
     /// This sadly causes some duplicated code like LoadContent and Draw
+    /// By Oliver
     /// </summary>
     public class BuffCardUI
     {
