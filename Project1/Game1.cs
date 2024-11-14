@@ -308,8 +308,7 @@ namespace Project1
             player.Position = new Vector2(screenSize.X / 2, screenSize.Y - 100);
 
             // Ryd alle fjender og andre spilobjekter undtagen spilleren
-            gameObjects.Clear();
-            gameObjects.Add(player);
+            gameObjects.RemoveAll(o => o is Enemy);
 
             // Ryd bufferlisterne
             gameObjectsToAdd.Clear();
