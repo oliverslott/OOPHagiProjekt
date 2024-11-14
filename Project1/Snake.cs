@@ -13,9 +13,6 @@ namespace Project1
         private Texture2D[] snake_hurt;
         private Texture2D[] snake_attack;
         private Texture2D[] snake_death;
-        protected float snake_speed;
-        protected int snake_health;
-        protected int snake_dmg;
         public Snake(Player player) : base(player, 2)
         {
             maxHealth = 2;
@@ -59,19 +56,19 @@ namespace Project1
             base.LoadContent(contentManager);
         }
 
-        public override void LoadWalkAnimation(ContentManager contentManager)
+        public override void LoadWalkAnimation(ContentManager contentManager) //Indlæser ganganimationen for snake
         {
             ChangeAnimationSprites(snake_walk);
         }
-        public override void LoadAttackAnimation(ContentManager contentManager)
+        public override void LoadAttackAnimation(ContentManager contentManager) //Indlæser angrebsanimationen for snake
         {
             ChangeAnimationSprites(snake_attack);
         }
-        public override void LoadHurtAnimation(ContentManager contentManager)
+        public override void LoadHurtAnimation(ContentManager contentManager) //Indlæser skadeanimationen for snake
         {
             ChangeAnimationSprites(snake_hurt);
         }
-        public override void LoadDeathAnimation(ContentManager contentManager)
+        public override void LoadDeathAnimation(ContentManager contentManager) //Indlæser dødsanimationen for snake
         {
             ChangeAnimationSprites(snake_death);
         }
