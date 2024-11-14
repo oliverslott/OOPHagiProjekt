@@ -12,7 +12,7 @@ public class Player : GameObject
 {
     public float Health { get; set; } = 1000; // 100 HP
 
-    private float health;
+    public float health;
     private Texture2D front;
     private Texture2D back;
     private Texture2D right;
@@ -153,6 +153,8 @@ public class Player : GameObject
         HandleInput(gameTime);
         Animate(gameTime);
         Move(gameTime);
+
+
     }
 
     private void HandleInput(GameTime gameTime)
