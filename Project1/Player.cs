@@ -10,7 +10,7 @@ using Project1;
 
 public class Player : GameObject
 {
-    public float Health { get; set; } = 1000; // 100 HP
+    public float Health { get; set; } = 1000; // 1000 HP - player health
 
     public float health;
     private Texture2D front;
@@ -129,11 +129,12 @@ public class Player : GameObject
 
         bulletSprite = contentManager.Load<Texture2D>("Bullet_Small"); //Gets loaded before-hand for better performance
 
-        bulletSound = contentManager.Load<SoundEffect>($"Sounds\\pew");
-        bulletSoundInstance = bulletSound.CreateInstance();
+        
+        bulletSound = contentManager.Load<SoundEffect>($"Sounds\\pew"); // loads bullet sound
+        bulletSoundInstance = bulletSound.CreateInstance(); // creates instance for playback
 
-        walking = contentManager.Load<SoundEffect>("walkingGame");
-        walkingInstance = walking.CreateInstance();
+        walking = contentManager.Load<SoundEffect>("walkingGame"); // loads walking sound
+        walkingInstance = walking.CreateInstance(); // creates instance for playback during player movement
 
 
     }
@@ -157,6 +158,11 @@ public class Player : GameObject
 
     }
 
+    /// <summary> // Malthe
+    /// Handles player input and updates the player's movement direction, velocity, 
+    /// and shooting actions based on keyboard input. Also manages walking sound effects.
+    /// </summary>
+    /// <param name="gameTime">Provides a snapshot of timing values.</param>
     private void HandleInput(GameTime gameTime)
     {
         velocity = Vector2.Zero;
