@@ -49,6 +49,18 @@
 /processorParam:TextureFormat=Color
 /build:BuffCardBackground.png
 
+#begin BlueBullet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BlueBullet.png
+
 #begin Bullet_Small.png
 /importer:TextureImporter
 /processor:TextureProcessor

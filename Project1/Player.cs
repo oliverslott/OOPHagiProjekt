@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -23,6 +24,8 @@ public class Player : GameObject
     private Texture2D bulletSprite;
     private float shootInterval = 0.5f;
     private float shootCooldown = 0f;
+    private int level = 0;
+    private int xp = 0;
 
     private SoundEffect bulletSound;
     private SoundEffectInstance bulletSoundInstance;
@@ -30,7 +33,9 @@ public class Player : GameObject
 
     private SoundEffect walking;
     private SoundEffectInstance walkingInstance;
-    
+
+    public event Action OnLevelUp;
+
 
 
     private enum Direction
@@ -49,6 +54,27 @@ public class Player : GameObject
 
     //Public setter for buffmanager
     public float ShootInterval { get => shootInterval; set => shootInterval = value; }
+    public int Level
+    {
+        get
+        {
+            return xp/100;
+        }
+        set
+        {
+            if(value > level)
+            {
+                level = value;
+                OnLevelUp?.Invoke();
+            }
+            else
+            {
+                level = value;
+            }
+        }
+    }
+
+    public int Xp { get => xp; set => xp = value; }
 
     public Player()
     {
@@ -66,7 +92,7 @@ public class Player : GameObject
         front = contentManager.Load<Texture2D>("front");
         //Walking down animations (facing screen)
         walk_down_sprites = new Texture2D[4];
-        for (int i = 0; i < walk_down_sprites.Length; i++) 
+        for (int i = 0; i < walk_down_sprites.Length; i++)
         {
             walk_down_sprites[i] = contentManager.Load<Texture2D>($"walk_down_{i + 1}");
         }
@@ -75,7 +101,7 @@ public class Player : GameObject
         back = contentManager.Load<Texture2D>("back");
         //Walking up animations (facing away from screen)
         walk_back_sprites = new Texture2D[4];
-        for (int i = 0; i < walk_back_sprites.Length; i++) 
+        for (int i = 0; i < walk_back_sprites.Length; i++)
         {
             walk_back_sprites[i] = contentManager.Load<Texture2D>($"walk_up_{i + 1}");
         }
@@ -84,7 +110,7 @@ public class Player : GameObject
         right = contentManager.Load<Texture2D>("right");
         //Walking up animations (facing away from screen)
         walk_right_sprites = new Texture2D[4];
-        for (int i = 0; i < walk_right_sprites.Length; i++) 
+        for (int i = 0; i < walk_right_sprites.Length; i++)
         {
             walk_right_sprites[i] = contentManager.Load<Texture2D>($"walk_right_{i + 1}");
         }
@@ -93,7 +119,7 @@ public class Player : GameObject
         left = contentManager.Load<Texture2D>("left");
         //Walking up animations (facing away from screen)
         walk_left_sprites = new Texture2D[4];
-        for (int i = 0; i < walk_left_sprites.Length; i++) 
+        for (int i = 0; i < walk_left_sprites.Length; i++)
         {
             walk_left_sprites[i] = contentManager.Load<Texture2D>($"walk_left_{i + 1}");
         }
@@ -119,7 +145,7 @@ public class Player : GameObject
 
     public override void Update(GameTime gameTime)
     {
-        if(shootCooldown >= 0)
+        if (shootCooldown >= 0)
         {
             shootCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
@@ -188,13 +214,13 @@ public class Player : GameObject
 
     private void Shoot()
     {
-        if(shootCooldown <= 0)
+        if (shootCooldown <= 0)
         {
             MouseState mouseState = Mouse.GetState();
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
 
             //The reason I am not using player position here is because we are doing some weird matrix translation, which causes the mouseposition and player position to be out of sync.
-            Game1.InstantiateGameobject(new Bullet(bulletSprite, position, mousePosition - Game1.GetScreenSize()/2));
+            Game1.InstantiateGameobject(new Bullet(bulletSprite, position, mousePosition - Game1.GetScreenSize() / 2));
             shootCooldown = ShootInterval;
 
             bulletSound.Play(soundEffectVolume, 0.0f, 0.0f);
@@ -223,7 +249,7 @@ public class Player : GameObject
         switch (currentDirection)
         {
             case Direction.UP:
-                if(velocity.LengthSquared() > 0f)
+                if (velocity.LengthSquared() > 0f)
                 {
                     ChangeAnimationSprites(walk_back_sprites);
                 }
@@ -263,5 +289,11 @@ public class Player : GameObject
                 }
                 break;
         }
+    }
+
+    public void AddXp(int amount)
+    {
+        xp += amount;
+        Level = xp / 100;
     }
 }

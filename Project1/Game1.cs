@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -25,12 +26,8 @@ namespace Project1
         private static List<GameObject> gameObjectsToRemove;
         private static List<GameObject> gameObjectsToAdd;
 
-        private float spawnTimer;
-
         private float spawnInterval;
         private float timeBetweenInterval = 1f;
-
-        public static SpriteFont spriteFont;
 
         private static Vector2 screenSize;
 
@@ -48,7 +45,8 @@ namespace Project1
         private Player player;
 
         private BuffManager buffManager;
-        public static Texture2D CollisionTexture;
+        private PlayerLevelUI playerLevelUI;
+        public static bool isPaused = false;
 
 
         private Song song;
@@ -83,7 +81,6 @@ namespace Project1
 
         protected override void Initialize()
         {
-            spawnTimer = 0f;
             spawnInterval = 5;
 
 
@@ -93,6 +90,8 @@ namespace Project1
 
             tileSprite = Content.Load<Texture2D>("tile");
             tileSprite2 = Content.Load<Texture2D>("tile2");
+
+
 
             Random rand = new Random();
 
@@ -120,6 +119,7 @@ namespace Project1
             }
             player = new Player();
             buffManager = new BuffManager(player);
+            playerLevelUI = new PlayerLevelUI(player);
             gameObjects.Add(player);
 
             base.Initialize();
@@ -129,15 +129,17 @@ namespace Project1
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+
             //spriteFont = Content.Load<SpriteFont>("font2");
             //TODO
 
             textFont = Content.Load<SpriteFont>("text");
 
+
             collisionTexture = Content.Load<Texture2D>("pixel");
-            CollisionTexture = Content.Load<Texture2D>("pixel");
 
             buffManager.LoadContent(Content);
+            playerLevelUI.LoadContent(Content);
 
             foreach (GameObject gameobject in gameObjects)
             {
@@ -175,32 +177,35 @@ namespace Project1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            spawnInterval += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (spawnInterval > timeBetweenInterval)
+            if(!isPaused)
             {
-                SpawnEnemy();
-                spawnInterval = 0;
-            }
-
-
-            foreach (GameObject gameObject in gameObjects)
-            {
-                gameObject.Update(gameTime);
-
-                if (gameObject.CollisionEnabled)
+                spawnInterval += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (spawnInterval > timeBetweenInterval)
                 {
-                    foreach (GameObject other in gameObjects)
-                    {
-                        if (other == gameObject) continue;
+                    SpawnEnemy();
+                    spawnInterval = 0;
+                }
 
-                        gameObject.CheckCollision(other);
+
+                foreach (GameObject gameObject in gameObjects)
+                {
+                    gameObject.Update(gameTime);
+
+                    if (gameObject.CollisionEnabled)
+                    {
+                        foreach (GameObject other in gameObjects)
+                        {
+                            if (other == gameObject) continue;
+
+                            gameObject.CheckCollision(other);
+                        }
                     }
                 }
-            }
 
-            if (player != null && playerHealthBar != null)
-            {
-                playerHealthBar.SetHealth((int)player.Health);
+                if (player != null && playerHealthBar != null)
+                {
+                    playerHealthBar.SetHealth((int)player.Health);
+                }
             }
 
             if (player != null && player.Health <= 0)
@@ -271,6 +276,7 @@ namespace Project1
 
             buffManager.DrawUI(_spriteBatch);
             playerHealthBar.Draw(_spriteBatch);
+            playerLevelUI.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -330,17 +336,17 @@ namespace Project1
             Enemy spawnedEnemy;
 
             int spawnEnemy = rnd.Next(100);
-            if (spawnEnemy <= 15)
+            if (spawnEnemy <= 20)
                 spawnedEnemy = new Rat(player);
-            else if (spawnEnemy > 15 && spawnEnemy <= 29)
+            else if (spawnEnemy > 20 && spawnEnemy <= 38)
                 spawnedEnemy = new Snake(player);
-            else if (spawnEnemy > 29 && spawnEnemy <= 43)
+            else if (spawnEnemy > 38 && spawnEnemy <= 55)
                 spawnedEnemy = new Scorpio(player);
-            else if (spawnEnemy > 43 && spawnEnemy <= 57)
+            else if (spawnEnemy > 55 && spawnEnemy <= 70)
                 spawnedEnemy = new Vulture(player);
-            else if (spawnEnemy > 57 && spawnEnemy <= 71)
+            else if (spawnEnemy > 70 && spawnEnemy <= 85)
                 spawnedEnemy = new Hyena(player);
-            else if (spawnEnemy > 71 && spawnEnemy <= 85)
+            else if (spawnEnemy > 85 && spawnEnemy <= 95)
                 spawnedEnemy = new Deceased(player);
             else
                 spawnedEnemy = new Mummy(player);

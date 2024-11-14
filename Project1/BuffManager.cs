@@ -7,6 +7,10 @@ using System.Diagnostics;
 
 namespace Project1
 {
+    /// <summary>
+    /// BuffManager has the responsibility of applying buffs to the player and drawing the buff cards the player can click on.
+    /// Made by Oliver
+    /// </summary>
     public class BuffManager
     {
         private Player player;
@@ -23,6 +27,7 @@ namespace Project1
         public BuffManager(Player player)
         {
             this.player = player;
+            player.OnLevelUp += Open;
         }
 
         public void AddBuff(Buff buff)
@@ -111,13 +116,15 @@ namespace Project1
 
         public void Open()
         {
+            Game1.isPaused = true;
             isOpen = true;
         }
 
         public void Close()
         {
             isOpen = false;
-            Mouse.SetCursor(MouseCursor.Arrow);
+            Game1.isPaused = false;
+            //Mouse.SetCursor(MouseCursor.Arrow);
         }
     }
 }

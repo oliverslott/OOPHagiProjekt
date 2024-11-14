@@ -17,11 +17,10 @@ namespace Project1
         protected int vulture_health;
         protected int vulture_dmg;
 
-        public Vulture(Player player) : base(player)
+        public Vulture(Player player) : base(player, 4)
         {
-            this.vulture_speed = 0.1f;
-            this.vulture_health = 50;
-            this.vulture_dmg = 10;
+            speed = NextFloat(250,260);
+            damage = 2/6.0f;
 
             RandomSpawn();
         }

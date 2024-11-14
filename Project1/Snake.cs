@@ -16,11 +16,11 @@ namespace Project1
         protected float snake_speed;
         protected int snake_health;
         protected int snake_dmg;
-        public Snake(Player player) : base(player)
+        public Snake(Player player) : base(player, 2)
         {
-            this.snake_speed = 1.2f;
-            this.snake_health = 3;
-            this.snake_dmg = 3;
+            maxHealth = 2;
+            speed = NextFloat(40,50);
+            damage = 5/6.0f;
 
             RandomSpawn();
         }
