@@ -7,13 +7,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Project1
 {
+/// <summary>
+/// Hyena fjende-klasse nedarver fra Enemy
+/// </summary>
     public class Hyena : Enemy
     {
         private Texture2D[] hyena_walk;
         private Texture2D[] hyena_attack;
         private Texture2D[] hyena_hurt;
         private Texture2D[] hyena_death;
-
+        /// <summary>
+        /// Hyena konstruktør.
+        /// Konstruktøren tager mod player, og player + maxHealth (nedarvet fra Enemy)
+        /// maxHealth = 10 for denne fjende.
+        /// Andre stats modificeres manuelt i konstruktøren
+        /// </summary>
+        /// <param name="player"></param>
         public Hyena(Player player) : base(player, 10)
         {
             speed = NextFloat(150,160);

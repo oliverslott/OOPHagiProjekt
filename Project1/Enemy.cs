@@ -31,7 +31,11 @@ namespace Project1
         private Player player;
 
 
-
+/// <summary>
+/// Enemy konstruktør
+/// </summary>
+/// <param name="player"></param>
+/// <param name="maxHealth"></param>
         public Enemy(Player player, int maxHealth)
         {
             this.player = player;
@@ -136,10 +140,25 @@ namespace Project1
 
             }
         }
-
+        /// <summary>
+        /// LoadWalkAnimation() er abstrakt = den kan overrides af de enkelte fjende-klasser (forskellige sprites).
+        /// </summary>
+        /// <param name="contentManager"></param>
         public abstract void LoadWalkAnimation(ContentManager contentManager);
+        /// <summary>
+        /// LoadAttackAnimation() er abstrakt = den kan overrides af de enkelte fjende-klasser (forskellige sprites).
+        /// </summary>
+        /// <param name="contentManager"></param>
         public abstract void LoadAttackAnimation(ContentManager contentManager);
+        /// <summary>
+        /// LoadHurtAnimation() er abstrakt = den kan overrides af de enkelte fjende-klasser (forskellige sprites).
+        /// </summary>
+        /// <param name="contentManager"></param>
         public abstract void LoadHurtAnimation(ContentManager contentManager);
+        /// <summary>
+        /// LoadDeathAnimation() er abstrakt = den kan overrides af de enkelte fjende-klasser (forskellige sprites).
+        /// </summary>
+        /// <param name="contentManager"></param>
         public abstract void LoadDeathAnimation(ContentManager contentManager);
 
     }

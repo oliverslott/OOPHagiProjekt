@@ -7,12 +7,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Project1
 {
+/// <summary>
+/// Vulture fjende-klasse nedarver fra Enemy
+/// </summary>
     public class Vulture : Enemy
     {
         private Texture2D[] vulture_walk;
         private Texture2D[] vulture_attack;
         private Texture2D[] vulture_hurt;
         private Texture2D[] vulture_death;
+        /// <summary>
+        /// Vulture konstruktør.
+        /// Konstruktøren tager mod player, og player + maxHealth (nedarvet fra Enemy)
+        /// maxHealth = 4 for denne fjende.
+        /// Andre stats modificeres manuelt i konstruktøren
+        /// </summary>
+        /// <param name="player"></param>
 
         public Vulture(Player player) : base(player, 4)
         {
