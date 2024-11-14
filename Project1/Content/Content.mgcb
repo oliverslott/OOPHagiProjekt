@@ -1304,6 +1304,13 @@
 /processorParam:Quality=Best
 /build:Sounds/pew.MP3
 
+#begin text.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:text.spritefont
+
 #begin tile.png
 /importer:TextureImporter
 /processor:TextureProcessor

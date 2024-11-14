@@ -19,6 +19,8 @@ namespace Project1
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private SpriteFont textFont;
+
         private List<GameObject> gameObjects;
 
         private static List<GameObject> gameObjectsToRemove;
@@ -31,7 +33,7 @@ namespace Project1
 
         private Texture2D collisionTexture;
 
-        public static bool gameOver;
+        private bool gameOver = false;
 
 
         private HealthBar playerHealthBar;
@@ -68,6 +70,8 @@ namespace Project1
             screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
+
         }
 
         public static Vector2 GetScreenSize()
@@ -125,6 +129,13 @@ namespace Project1
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+
+            //spriteFont = Content.Load<SpriteFont>("font2");
+            //TODO
+
+            textFont = Content.Load<SpriteFont>("text");
+
+
             collisionTexture = Content.Load<Texture2D>("pixel");
 
             buffManager.LoadContent(Content);
@@ -151,6 +162,18 @@ namespace Project1
         {
             
 
+            if (gameOver)
+            {
+                MediaPlayer.Stop();
+
+                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                {
+                    ResetGame();
+                }
+                return;
+                
+            }
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -184,8 +207,12 @@ namespace Project1
                     playerHealthBar.SetHealth((int)player.Health);
                 }
             }
-            
-           
+
+            if (player != null && player.Health <= 0)
+            {
+                gameOver = true;
+                //Exit();
+            }
 
             AddGameobjects();
             RemoveGameobjects();
@@ -206,6 +233,24 @@ namespace Project1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            if (gameOver)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+                Vector2 textPosition1 = new Vector2(_graphics.PreferredBackBufferWidth / 2 - 200, _graphics.PreferredBackBufferHeight / 2 - 50);
+                Vector2 textPosition2 = new Vector2(_graphics.PreferredBackBufferWidth / 2 - 250, _graphics.PreferredBackBufferHeight / 2 + 200);
+                _spriteBatch.DrawString(textFont, $"GAME OVER", textPosition1, Color.Green);
+                //_spriteBatch.DrawString(textFont, $"Press R to Restart", textPosition2, Color.Green);
+                _spriteBatch.End();
+                return;
+
+                
+
+            }
+
+
+
+
             //Move the camera based on the player position
             Matrix cameraTransform = Matrix.CreateTranslation(-player.Position.X+screenSize.X/2, -player.Position.Y+screenSize.Y/2, 0);
 
@@ -219,6 +264,8 @@ namespace Project1
                 DrawCollisionBox(gameobject);
 #endif
             }
+
+             
 
             _spriteBatch.End();
 
@@ -246,6 +293,37 @@ namespace Project1
             }
 
             gameObjectsToAdd.Clear();
+        }
+
+        private void ResetGame()
+        {
+            gameOver = false;
+
+
+          
+            
+            
+            // Nulstil spillerens sundhed og position
+            player.Health = 1000;
+            player.Position = new Vector2(screenSize.X / 2, screenSize.Y - 100);
+
+            // Ryd alle fjender og andre spilobjekter undtagen spilleren
+            gameObjects.Clear();
+            gameObjects.Add(player);
+
+            // Ryd bufferlisterne
+            gameObjectsToAdd.Clear();
+            gameObjectsToRemove.Clear();
+
+            // Nulstil andre spilrelaterede variabler
+            spawnTimer = 0f;
+            spawnInterval = 5;
+
+            // Genstart musikken
+            MediaPlayer.Play(song);
+
+            
+
         }
 
         public static void InstantiateGameobject(GameObject gameObject)
