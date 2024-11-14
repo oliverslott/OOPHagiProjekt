@@ -316,7 +316,7 @@ namespace Project1
             gameObjectsToRemove.Clear();
 
             // Nulstil andre spilrelaterede variabler
-            spawnTimer = 0f;
+            //spawnTimer = 0f;
             spawnInterval = 5;
 
             // Genstart musikken
