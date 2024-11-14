@@ -32,17 +32,28 @@ namespace Project1
 
 
 
+        /// <summary> // Malthe
+        /// Initializes a new instance of the Enemy class with a specified player reference and maximum health.
+        /// Sets initial values for scale, velocity, random position, and animation speed.
+        /// </summary>
+        /// <param name="player">The player instance that the enemy interacts with or targets.</param>
+        /// <param name="maxHealth">The maximum health for the enemy.</param>
         public Enemy(Player player, int maxHealth)
         {
+            // Set player reference and initialize health values
             this.player = player;
             this.maxHealth = maxHealth;
             currentHealth = maxHealth;
 
+            // Set scale for enemy size and initial velocity
             scale = 2f;
             velocity = new Vector2(0, 1);
-            RandomSpawn(); // Kald RandomSpawn her for at sætte en tilfældig startposition
 
-            fps = 12; 
+            // Randomly set the initial position within the game area
+            RandomSpawn();
+
+            // Set frames per second for enemy animation
+            fps = 12;
         }
 
         public override void LoadContent(ContentManager contentManager)
@@ -98,17 +109,20 @@ namespace Project1
           
         }
 
+        /// <summary> // Malthe
+        /// Sets the enemy's position to a random location within the game area dimensions.
+        /// This helps in generating random spawn points for enemies.
+        /// </summary>
         protected void RandomSpawn()
         {
-            // Antag spillets bredde og højde; disse værdier skal ændres til spillets faktiske dimensioner
-            int gameWidth = 1280;  // Skift til bredden af din spilskærm
-            int gameHeight = 720; // Skift til højden af din spilskærm
+            int gameWidth = 1280;  // Width of the game area
+            int gameHeight = 720;  // Height of the game area
 
-            // Generer tilfældige x- og y-koordinater inden for spilområdet
+            // Generate random x and y coordinates within the game area
             float randomX = NextFloat(0, gameWidth);
             float randomY = NextFloat(0, gameHeight);
 
-            // Sæt enemy's position til den tilfældige placering
+            // Set enemy's position to the randomly generated location
             position = new Vector2(randomX, randomY);
         }
 
