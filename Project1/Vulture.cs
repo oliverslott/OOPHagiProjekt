@@ -13,9 +13,6 @@ namespace Project1
         private Texture2D[] vulture_attack;
         private Texture2D[] vulture_hurt;
         private Texture2D[] vulture_death;
-        protected float vulture_speed;
-        protected int vulture_health;
-        protected int vulture_dmg;
 
         public Vulture(Player player) : base(player, 4)
         {
@@ -57,22 +54,22 @@ namespace Project1
             base.LoadContent(contentManager);
         }
 
-        public override void LoadWalkAnimation(ContentManager contentManager)
+        public override void LoadWalkAnimation(ContentManager contentManager) //Indlæser ganganimationen for vulture
         {
             ChangeAnimationSprites(vulture_walk);
         }
 
-        public override void LoadAttackAnimation(ContentManager contentManager) //Vulture har ikke attack animation
+        public override void LoadAttackAnimation(ContentManager contentManager) //Indlæser angrebsanimationen for vulture
         {
             ChangeAnimationSprites(vulture_attack);
         } 
 
-        public override void LoadHurtAnimation(ContentManager contentManager)
+        public override void LoadHurtAnimation(ContentManager contentManager) //Indlæser skadeanimationen for vulture
         {
             ChangeAnimationSprites(vulture_hurt);
         }
 
-        public override void LoadDeathAnimation(ContentManager contentManager)
+        public override void LoadDeathAnimation(ContentManager contentManager) //Indlæser dødsanimationen for vulture
         {
             ChangeAnimationSprites(vulture_death);
         }
