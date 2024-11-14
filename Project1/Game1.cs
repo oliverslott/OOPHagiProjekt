@@ -240,7 +240,7 @@ namespace Project1
                 Vector2 textPosition1 = new Vector2(_graphics.PreferredBackBufferWidth / 2 - 200, _graphics.PreferredBackBufferHeight / 2 - 50);
                 Vector2 textPosition2 = new Vector2(_graphics.PreferredBackBufferWidth / 2 - 250, _graphics.PreferredBackBufferHeight / 2 + 200);
                 _spriteBatch.DrawString(textFont, $"GAME OVER", textPosition1, Color.Green);
-                //_spriteBatch.DrawString(textFont, $"Press R to Restart", textPosition2, Color.Green);
+                _spriteBatch.DrawString(textFont, $"Press R to Restart", textPosition2, Color.Green);
                 _spriteBatch.End();
                 return;
 
