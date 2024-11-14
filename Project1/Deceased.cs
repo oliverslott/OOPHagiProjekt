@@ -7,12 +7,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Project1
 {
+/// <summary>
+/// Deceased fjende-klasse nedarver fra Enemy
+/// </summary>
     public class Deceased : Enemy
     {
         private Texture2D[] deceased_walk;
         private Texture2D[] deceased_attack;
         private Texture2D[] deceased_hurt;
         private Texture2D[] deceased_death;
+        /// <summary>
+        /// Deceased konstruktør.
+        /// Konstruktøren tager mod player, og player + maxHealth (nedarvet fra Enemy)
+        /// maxHealth = 20 for denne fjende.
+        /// Andre stats modificeres manuelt i konstruktøren
+        /// </summary>
+        /// <param name="player"></param>
         public Deceased(Player player) : base(player, 20)
         {
             speed = NextFloat(40,50);

@@ -7,12 +7,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Project1
 {
+/// <summary>
+/// Scorpion fjende-klasse nedarver fra Enemy
+/// </summary>
     public class Scorpio : Enemy
     {
         private Texture2D[] scorpio_walk;
         private Texture2D[] scorpio_hurt;
         private Texture2D[] scorpio_attack;
         private Texture2D[] scorpio_death;
+        /// <summary>
+        /// Scorpio konstruktør.
+        /// Konstruktøren tager mod player, og player + maxHealth (nedarvet fra Enemy)
+        /// maxHealth = 1 for denne fjende.
+        /// Andre stats modificeres manuelt i konstruktøren
+        /// </summary>
+        /// <param name="player"></param>
         public Scorpio(Player player) : base(player, 1)
         {
             speed = NextFloat(100,110);

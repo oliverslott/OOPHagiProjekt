@@ -330,6 +330,12 @@ namespace Project1
             gameObjectsToAdd.Add(gameObject);
         }
 
+        /// <summary>
+        /// SpawnEnemy()
+        /// Denne metode instansierer Enemy (enemies) i spillet
+        /// Typen af enemies afhænger af et tilfædigt tal fra 0-100.
+        /// Desto højere tal desto svære enemy.
+        /// </summary>
         private void SpawnEnemy()
         {
             Enemy spawnedEnemy;

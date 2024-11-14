@@ -6,13 +6,22 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 namespace Project1
 {
+/// <summary>
+/// Mummy fjende-klasse nedarver fra Enemy
+/// </summary>
     public class Mummy : Enemy
     {
         private Texture2D[] mummy_walk;
         private Texture2D[] mummy_attack;
         private Texture2D[] mummy_hurt;
         private Texture2D[] mummy_death;
-
+        /// <summary>
+        /// Mummy konstruktør.
+        /// Konstruktøren tager mod player, og player + maxHealth (nedarvet fra Enemy)
+        /// maxHealth = 35 for denne fjende.
+        /// Andre stats modificeres manuelt i konstruktøren
+        /// </summary>
+        /// <param name="player"></param>
         public Mummy(Player player) : base(player, 35)
         {
             speed = NextFloat(60,70);
