@@ -12,9 +12,6 @@ namespace Project1
         private Texture2D[] mummy_attack;
         private Texture2D[] mummy_hurt;
         private Texture2D[] mummy_death;
-        protected float mummy_speed;
-        protected int mummy_health;
-        protected int mummy_dmg;
 
         public Mummy(Player player) : base(player, 35)
         {
@@ -56,22 +53,22 @@ namespace Project1
             base.LoadContent(contentManager);
         }
 
-        public override void LoadWalkAnimation(ContentManager contentManager)
+        public override void LoadWalkAnimation(ContentManager contentManager) //Indlæser ganganimationen for mummy
         {
             ChangeAnimationSprites(mummy_walk);
         }
 
-        public override void LoadAttackAnimation(ContentManager contentManager) //Mummy har ikke attack animation
+        public override void LoadAttackAnimation(ContentManager contentManager) //Indlæser angrebsanimationen for mummy
         {
             ChangeAnimationSprites(mummy_attack);
         } 
 
-        public override void LoadHurtAnimation(ContentManager contentManager)
+        public override void LoadHurtAnimation(ContentManager contentManager) //Indlæser skadeanimationen for mummy
         {
             ChangeAnimationSprites(mummy_hurt);
         }
 
-        public override void LoadDeathAnimation(ContentManager contentManager)
+        public override void LoadDeathAnimation(ContentManager contentManager) //Indlæser dødsanimationen for mummy
         {
             ChangeAnimationSprites(mummy_death);
         }

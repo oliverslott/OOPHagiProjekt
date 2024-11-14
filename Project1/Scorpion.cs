@@ -13,9 +13,6 @@ namespace Project1
         private Texture2D[] scorpio_hurt;
         private Texture2D[] scorpio_attack;
         private Texture2D[] scorpio_death;
-        protected float scorpio_speed;
-        protected int scorpio_health;
-        protected int scorpio_dmg;
         public Scorpio(Player player) : base(player, 1)
         {
             speed = NextFloat(100,110);
@@ -56,19 +53,19 @@ namespace Project1
             base.LoadContent(contentManager);
         }
 
-        public override void LoadWalkAnimation(ContentManager contentManager)
+        public override void LoadWalkAnimation(ContentManager contentManager) //Indlæser ganganimationen for scorpion
         {
             ChangeAnimationSprites(scorpio_walk);
         } 
-        public override void LoadAttackAnimation(ContentManager contentManager)
+        public override void LoadAttackAnimation(ContentManager contentManager) //Indlæser angrebsanimationen for scorpion
         {
             ChangeAnimationSprites(scorpio_attack);
         } 
-        public override void LoadHurtAnimation(ContentManager contentManager)
+        public override void LoadHurtAnimation(ContentManager contentManager) //Indlæser skadeanimationen for scorpion
         {
             ChangeAnimationSprites(scorpio_hurt);
         } 
-        public override void LoadDeathAnimation(ContentManager contentManager)
+        public override void LoadDeathAnimation(ContentManager contentManager) //Indlæser dødsanimationen for scorpion
         {
             ChangeAnimationSprites(scorpio_death);
         } 

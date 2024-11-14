@@ -13,9 +13,6 @@ namespace Project1
         private Texture2D[] hyena_attack;
         private Texture2D[] hyena_hurt;
         private Texture2D[] hyena_death;
-        protected float hyena_speed;
-        protected int hyena_health;
-        protected int hyena_dmg;
 
         public Hyena(Player player) : base(player, 10)
         {
@@ -57,22 +54,22 @@ namespace Project1
             base.LoadContent(contentManager);
         }
 
-        public override void LoadWalkAnimation(ContentManager contentManager)
+        public override void LoadWalkAnimation(ContentManager contentManager) //Indlæser ganganimationen for hyena
         {
             ChangeAnimationSprites(hyena_walk);
         }
 
-        public override void LoadAttackAnimation(ContentManager contentManager) //Hyena har ikke attack animation
+        public override void LoadAttackAnimation(ContentManager contentManager) //Indlæser angrebsanimationen for hyena
         {
             ChangeAnimationSprites(hyena_attack);
         } 
 
-        public override void LoadHurtAnimation(ContentManager contentManager)
+        public override void LoadHurtAnimation(ContentManager contentManager) //Indlæser skadeanimationen for hyena
         {
             ChangeAnimationSprites(hyena_hurt);
         }
 
-        public override void LoadDeathAnimation(ContentManager contentManager)
+        public override void LoadDeathAnimation(ContentManager contentManager) //Indlæser dødsanimationen for hyena
         {
             ChangeAnimationSprites(hyena_death);
         }

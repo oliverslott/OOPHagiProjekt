@@ -13,7 +13,6 @@ namespace Project1
         private Texture2D[] deceased_attack;
         private Texture2D[] deceased_hurt;
         private Texture2D[] deceased_death;
-
         public Deceased(Player player) : base(player, 20)
         {
             speed = NextFloat(40,50);
@@ -54,19 +53,19 @@ namespace Project1
             base.LoadContent(contentManager);
         }
 
-        public override void LoadWalkAnimation(ContentManager contentManager)
+        public override void LoadWalkAnimation(ContentManager contentManager) //Indlæser ganganimationen for deceased
         {
             ChangeAnimationSprites(deceased_walk);
         }
-        public override void LoadAttackAnimation(ContentManager contentManager) //Rotte har ikke attack animation
+        public override void LoadAttackAnimation(ContentManager contentManager) //Indlæser angrebsanimationen for deceased
         {
             ChangeAnimationSprites(deceased_attack);
         } 
-        public override void LoadHurtAnimation(ContentManager contentManager)
+        public override void LoadHurtAnimation(ContentManager contentManager) //Indlæser skadeanimationen for deceased
         {
             ChangeAnimationSprites(deceased_hurt);
         }
-        public override void LoadDeathAnimation(ContentManager contentManager)
+        public override void LoadDeathAnimation(ContentManager contentManager) //Indlæser dødsanimationen for deceased
         {
             ChangeAnimationSprites(deceased_death);
         }

@@ -47,19 +47,19 @@ namespace Project1
             base.LoadContent(contentManager);
         }
 
-        public override void LoadWalkAnimation(ContentManager contentManager)
+        public override void LoadWalkAnimation(ContentManager contentManager) //Indlæser ganganimationen for rotte
         {
             ChangeAnimationSprites(rat_walk);
         }
-        public override void LoadAttackAnimation(ContentManager contentManager) //Rotte har ikke attack animation
+        public override void LoadAttackAnimation(ContentManager contentManager) //Rotte har ikke attack animation (så det er ganganimationen)
         {
             ChangeAnimationSprites(rat_walk);
         } 
-        public override void LoadHurtAnimation(ContentManager contentManager)
+        public override void LoadHurtAnimation(ContentManager contentManager) //Indlæser skadeanimationen for rotte
         {
             ChangeAnimationSprites(rat_hurt);
         }
-        public override void LoadDeathAnimation(ContentManager contentManager)
+        public override void LoadDeathAnimation(ContentManager contentManager) //Indlæser dødsanimationen for rotte
         {
             ChangeAnimationSprites(rat_death);
         }
