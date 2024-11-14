@@ -133,7 +133,7 @@ namespace Project1
             //spriteFont = Content.Load<SpriteFont>("font2");
             //TODO
 
-            textFont = Content.Load<SpriteFont>("text");
+            textFont = Content.Load<SpriteFont>("text"); 
 
 
             collisionTexture = Content.Load<Texture2D>("pixel");
@@ -151,10 +151,10 @@ namespace Project1
 
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
 
-            song = Content.Load<Song>("music1");
+            song = Content.Load<Song>("music1"); // music for the game
 
-            MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = songVolume;
+            MediaPlayer.IsRepeating = true; // music keeps playing as long as the game is running
+            MediaPlayer.Volume = songVolume; 
             MediaPlayer.Play(song);
         }
 
@@ -162,11 +162,11 @@ namespace Project1
         {
             
 
-            if (gameOver)
+            if (gameOver) // Malthe
             {
                 MediaPlayer.Stop();
 
-                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                if (Keyboard.GetState().IsKeyDown(Keys.R)) // if R is pressed the game will restart
                 {
                     ResetGame();
                 }
@@ -210,7 +210,7 @@ namespace Project1
 
             if (player != null && player.Health <= 0)
             {
-                gameOver = true;
+                gameOver = true; // if player health i <0 the game ends 
                 //Exit();
             }
 
@@ -233,7 +233,7 @@ namespace Project1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            if (gameOver)
+            if (gameOver) // Malthe
             {
                 GraphicsDevice.Clear(Color.Black);
                 _spriteBatch.Begin();
@@ -243,7 +243,7 @@ namespace Project1
                 _spriteBatch.DrawString(textFont, $"Press R to Restart", textPosition2, Color.Green);
                 _spriteBatch.End();
                 return;
-
+                // Creates a gameOver screen when player dies, with text implemented on the screen
                 
 
             }
@@ -295,34 +295,32 @@ namespace Project1
             gameObjectsToAdd.Clear();
         }
 
+        /// <summary> // Malthe og Oliver
+        /// Resets the game state to its initial conditions, preparing for a new game session.
+        /// This includes resetting the player's health and position, clearing all enemies and
+        /// other non-player game objects, resetting relevant game variables, and restarting the background music.
+        /// </summary>
         private void ResetGame()
         {
+            // Reset game-over status
             gameOver = false;
 
-
-          
-            
-            
-            // Nulstil spillerens sundhed og position
+            // Reset player's health and position to initial values
             player.Health = 1000;
             player.Position = new Vector2(screenSize.X / 2, screenSize.Y - 100);
 
-            // Ryd alle fjender og andre spilobjekter undtagen spilleren
+            // Remove all enemies and other non-player objects from the game
             gameObjects.RemoveAll(o => o is Enemy);
 
-            // Ryd bufferlisterne
+            // Clear the buffers for game objects to add and remove
             gameObjectsToAdd.Clear();
             gameObjectsToRemove.Clear();
 
-            // Nulstil andre spilrelaterede variabler
-            //spawnTimer = 0f;
+            // Reset game-specific variables
             spawnInterval = 5;
 
-            // Genstart musikken
+            // Restart background music
             MediaPlayer.Play(song);
-
-            
-
         }
 
         public static void InstantiateGameobject(GameObject gameObject)
@@ -330,26 +328,34 @@ namespace Project1
             gameObjectsToAdd.Add(gameObject);
         }
 
+        /// <summary> // Mark og Malthe
+        /// Spawns a random enemy based on predefined probabilities. Each enemy type 
+        /// has a specific chance of spawning, and the spawned enemy is added to the game world.
+        /// </summary>
         private void SpawnEnemy()
         {
             Enemy spawnedEnemy;
 
+            // Generate a random number to determine which enemy to spawn
             int spawnEnemy = rnd.Next(100);
-            if (spawnEnemy <= 20)
-                spawnedEnemy = new Rat(player);
-            else if (spawnEnemy > 20 && spawnEnemy <= 38)
-                spawnedEnemy = new Snake(player);
-            else if (spawnEnemy > 38 && spawnEnemy <= 55)
-                spawnedEnemy = new Scorpio(player);
-            else if (spawnEnemy > 55 && spawnEnemy <= 70)
-                spawnedEnemy = new Vulture(player);
-            else if (spawnEnemy > 70 && spawnEnemy <= 85)
-                spawnedEnemy = new Hyena(player);
-            else if (spawnEnemy > 85 && spawnEnemy <= 95)
-                spawnedEnemy = new Deceased(player);
-            else
-                spawnedEnemy = new Mummy(player);
 
+            // Spawn different enemies based on probability ranges
+            if (spawnEnemy <= 20)
+                spawnedEnemy = new Rat(player); // 21% chance
+            else if (spawnEnemy > 20 && spawnEnemy <= 38)
+                spawnedEnemy = new Snake(player); // 18% chance
+            else if (spawnEnemy > 38 && spawnEnemy <= 55)
+                spawnedEnemy = new Scorpio(player); // 17% chance
+            else if (spawnEnemy > 55 && spawnEnemy <= 70)
+                spawnedEnemy = new Vulture(player); // 15% chance
+            else if (spawnEnemy > 70 && spawnEnemy <= 85)
+                spawnedEnemy = new Hyena(player); // 15% chance
+            else if (spawnEnemy > 85 && spawnEnemy <= 95)
+                spawnedEnemy = new Deceased(player); // 10% chance
+            else
+                spawnedEnemy = new Mummy(player); // 5% chance
+
+           
             spawnedEnemy.LoadContent(Content);
             gameObjects.Add(spawnedEnemy);
         }
