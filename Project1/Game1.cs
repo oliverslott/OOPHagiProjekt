@@ -120,6 +120,9 @@ namespace Project1
             healthTexture.SetData(new[] { Color.Red });
 
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
+
+            SpriteFont font = Content.Load<SpriteFont>("font");
+            Scoreboard.Initialize(font, new Vector2(1200, 20));
         }
 
         protected override void Update(GameTime gameTime)
@@ -161,6 +164,8 @@ namespace Project1
                 playerHealthBar.SetHealth(playerHealthBar.currentHealth - 1);
             }
 
+            
+
             base.Update(gameTime);
         }
 
@@ -193,6 +198,7 @@ namespace Project1
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             playerHealthBar.Draw(_spriteBatch);
+            Scoreboard.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
