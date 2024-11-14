@@ -328,9 +328,11 @@ namespace Project1
             gameObjectsToAdd.Add(gameObject);
         }
 
+
         /// <summary> // Mark og Malthe
         /// Spawns a random enemy based on predefined probabilities. Each enemy type 
         /// has a specific chance of spawning, and the spawned enemy is added to the game world.
+
         /// </summary>
         private void SpawnEnemy()
         {

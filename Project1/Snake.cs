@@ -7,12 +7,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Project1
 {
+/// <summary>
+/// Snake fjende-klasse nedarver fra Enemy
+/// </summary>
     public class Snake : Enemy
     {
         private Texture2D[] snake_walk;
         private Texture2D[] snake_hurt;
         private Texture2D[] snake_attack;
         private Texture2D[] snake_death;
+        /// <summary>
+        /// Snake konstruktør.
+        /// Konstruktøren tager mod player, og player + maxHealth (nedarvet fra Enemy)
+        /// maxHealth = 2 for denne fjende.
+        /// Andre stats modificeres manuelt i konstruktøren
+        /// </summary>
+        /// <param name="player"></param>
         public Snake(Player player) : base(player, 2)
         {
             maxHealth = 2;

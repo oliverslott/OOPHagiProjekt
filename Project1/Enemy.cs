@@ -32,12 +32,20 @@ namespace Project1
 
 
 
+
         /// <summary> // Malthe
         /// Initializes a new instance of the Enemy class with a specified player reference and maximum health.
         /// Sets initial values for scale, velocity, random position, and animation speed.
         /// </summary>
         /// <param name="player">The player instance that the enemy interacts with or targets.</param>
         /// <param name="maxHealth">The maximum health for the enemy.</param>
+
+/// <summary>
+/// Enemy konstruktør
+/// </summary>
+/// <param name="player"></param>
+/// <param name="maxHealth"></param>
+
         public Enemy(Player player, int maxHealth)
         {
             // Set player reference and initialize health values
@@ -150,10 +158,25 @@ namespace Project1
 
             }
         }
-
+        /// <summary>
+        /// LoadWalkAnimation() er abstrakt = den kan overrides af de enkelte fjende-klasser (forskellige sprites).
+        /// </summary>
+        /// <param name="contentManager"></param>
         public abstract void LoadWalkAnimation(ContentManager contentManager);
+        /// <summary>
+        /// LoadAttackAnimation() er abstrakt = den kan overrides af de enkelte fjende-klasser (forskellige sprites).
+        /// </summary>
+        /// <param name="contentManager"></param>
         public abstract void LoadAttackAnimation(ContentManager contentManager);
+        /// <summary>
+        /// LoadHurtAnimation() er abstrakt = den kan overrides af de enkelte fjende-klasser (forskellige sprites).
+        /// </summary>
+        /// <param name="contentManager"></param>
         public abstract void LoadHurtAnimation(ContentManager contentManager);
+        /// <summary>
+        /// LoadDeathAnimation() er abstrakt = den kan overrides af de enkelte fjende-klasser (forskellige sprites).
+        /// </summary>
+        /// <param name="contentManager"></param>
         public abstract void LoadDeathAnimation(ContentManager contentManager);
 
     }
