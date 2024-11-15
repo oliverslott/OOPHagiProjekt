@@ -122,7 +122,7 @@ namespace Project1
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
 
             SpriteFont font = Content.Load<SpriteFont>("font");
-            Scoreboard.Initialize(font, new Vector2(1200, 20));
+            Scoreboard.Initialize(font, new Vector2(600, 20));
         }
 
         protected override void Update(GameTime gameTime)
