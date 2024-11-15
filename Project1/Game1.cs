@@ -297,7 +297,7 @@ namespace Project1
 
         /// <summary> // Malthe og Oliver
         /// Resets the game state to its initial conditions, preparing for a new game session.
-        /// This includes resetting the player's health and position, clearing all enemies and
+        /// Resetting the player's health and position, clearing all enemies and
         /// other non-player game objects, resetting relevant game variables, and restarting the background music.
         /// </summary>
         private void ResetGame()
