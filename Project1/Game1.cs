@@ -151,11 +151,14 @@ namespace Project1
 
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
 
+            SpriteFont font = Content.Load<SpriteFont>("font");
+            Scoreboard.Initialize(font, new Vector2(600, 20));
             song = Content.Load<Song>("music1"); // music for the game
 
             MediaPlayer.IsRepeating = true; // music keeps playing as long as the game is running
             MediaPlayer.Volume = songVolume; 
             MediaPlayer.Play(song);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -221,6 +224,8 @@ namespace Project1
 
             buffManager.UpdateUI(gameTime);
 
+            
+
             base.Update(gameTime);
         }
 
@@ -276,6 +281,7 @@ namespace Project1
 
             buffManager.DrawUI(_spriteBatch);
             playerHealthBar.Draw(_spriteBatch);
+            Scoreboard.Draw(_spriteBatch);
             playerLevelUI.Draw(_spriteBatch);
 
             _spriteBatch.End();
