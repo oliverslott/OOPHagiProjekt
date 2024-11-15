@@ -12,7 +12,7 @@ namespace Project1
     {
         private static int enemyKillCount;
         private static SpriteFont font;
-        private static Vector2 position = new Vector2(20, 20);
+        private static Vector2 position;
 
         public static void Initialize(SpriteFont spriteFont, Vector2 pos)
         {
