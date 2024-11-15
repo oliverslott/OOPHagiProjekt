@@ -4,11 +4,11 @@
     {
         public MovementSpeedBuff()
         {
-            Description = "Increase movement speed by 50%";
+            Description = "Increase movement speed by 10%";
         }
         public override void Apply(Player player)
         {
-            player.Speed *= 1.5f;
+            player.Speed *= 1.10f;
         }
     }
 }
