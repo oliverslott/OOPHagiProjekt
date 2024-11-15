@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Project1
 {
+    // Hussein
     public static class Scoreboard
     {
         private static int enemyKillCount;
@@ -33,7 +34,7 @@ namespace Project1
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, "Score: " + enemyKillCount, position, Color.Black);
+            spriteBatch.DrawString(font, "Score: " + enemyKillCount, position, Color.White);
         }
     }
 }

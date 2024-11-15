@@ -143,11 +143,14 @@ namespace Project1
             if (other is Bullet)
             {
                 currentHealth--;
+                
 
                 if (currentHealth <= 0)
                 {
                     player.AddXp(10); //TODO: Should different enemies have different xp drop?
                     Game1.AddGameobjectToRemove(this);
+                    Scoreboard.AddKill();
+
                 }
             }
             if (other is Player)

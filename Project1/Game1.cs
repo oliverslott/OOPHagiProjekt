@@ -153,6 +153,7 @@ namespace Project1
 
             SpriteFont font = Content.Load<SpriteFont>("font");
             Scoreboard.Initialize(font, new Vector2(600, 20));
+
             song = Content.Load<Song>("music1"); // music for the game
 
             MediaPlayer.IsRepeating = true; // music keeps playing as long as the game is running
