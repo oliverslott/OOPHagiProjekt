@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Project1
 {
+    /// <summary>
+    /// A tile with collision disabled
+    /// Made by Oliver
+    /// </summary>
     internal class Tile : GameObject
     {
         public Tile(Texture2D sprite)

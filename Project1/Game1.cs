@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace Project1
 {
@@ -14,23 +19,21 @@ namespace Project1
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private SpriteFont textFont;
+
         private List<GameObject> gameObjects;
 
         private static List<GameObject> gameObjectsToRemove;
         private static List<GameObject> gameObjectsToAdd;
 
-        private float spawnTimer;
-
         private float spawnInterval;
-        private float timeBetweenInterval = 5f;
-
-        public static SpriteFont spriteFont;
+        private float timeBetweenInterval = 1f;
 
         private static Vector2 screenSize;
 
         private Texture2D collisionTexture;
 
-        public static bool gameOver;
+        private bool gameOver = false;
 
 
         private HealthBar playerHealthBar;
@@ -40,6 +43,20 @@ namespace Project1
         private Texture2D tileSprite2;
 
         private Player player;
+
+        private BuffManager buffManager;
+        private PlayerLevelUI playerLevelUI;
+        public static bool isPaused = false;
+
+
+        private Song song;
+        private float songVolume = 0.02f;
+
+
+        
+
+        public static Texture2D healthTexture;
+
 
 
 
@@ -53,6 +70,8 @@ namespace Project1
             screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
+
         }
 
         public static Vector2 GetScreenSize()
@@ -62,7 +81,6 @@ namespace Project1
 
         protected override void Initialize()
         {
-            spawnTimer = 0f;
             spawnInterval = 5;
 
 
@@ -72,6 +90,8 @@ namespace Project1
 
             tileSprite = Content.Load<Texture2D>("tile");
             tileSprite2 = Content.Load<Texture2D>("tile2");
+
+
 
             Random rand = new Random();
 
@@ -98,6 +118,8 @@ namespace Project1
                 }
             }
             player = new Player();
+            buffManager = new BuffManager(player);
+            playerLevelUI = new PlayerLevelUI(player);
             gameObjects.Add(player);
 
             base.Initialize();
@@ -107,62 +129,100 @@ namespace Project1
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //spriteFont = Content.Load<SpriteFont>("font2"); TODO
+
+            //spriteFont = Content.Load<SpriteFont>("font2");
+            //TODO
+
+            textFont = Content.Load<SpriteFont>("text"); 
+
 
             collisionTexture = Content.Load<Texture2D>("pixel");
+
+            buffManager.LoadContent(Content);
+            playerLevelUI.LoadContent(Content);
 
             foreach (GameObject gameobject in gameObjects)
             {
                 gameobject.LoadContent(Content);
             }
 
-            Texture2D healthTexture = new Texture2D(GraphicsDevice, 1, 1);
+            healthTexture = new Texture2D(GraphicsDevice, 1, 1);
             healthTexture.SetData(new[] { Color.Red });
 
             playerHealthBar = new HealthBar(healthTexture, new Vector2(20, 20), 200, 20, 1000);
 
             SpriteFont font = Content.Load<SpriteFont>("font");
             Scoreboard.Initialize(font, new Vector2(600, 20));
+            song = Content.Load<Song>("music1"); // music for the game
+
+            MediaPlayer.IsRepeating = true; // music keeps playing as long as the game is running
+            MediaPlayer.Volume = songVolume; 
+            MediaPlayer.Play(song);
+
         }
 
         protected override void Update(GameTime gameTime)
         {
+            
+
+            if (gameOver) // Malthe
+            {
+                MediaPlayer.Stop();
+
+                if (Keyboard.GetState().IsKeyDown(Keys.R)) // if R is pressed the game will restart
+                {
+                    ResetGame();
+                }
+                return;
+                
+            }
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            spawnInterval += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (spawnInterval > timeBetweenInterval)
+            if(!isPaused)
             {
-                SpawnEnemy();
-                spawnInterval = 0;
-            }
-
-
-            foreach (GameObject gameObject in gameObjects)
-            {
-                gameObject.Update(gameTime);
-
-                if(gameObject.CollisionEnabled)
+                spawnInterval += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (spawnInterval > timeBetweenInterval)
                 {
-                    foreach (GameObject other in gameObjects)
-                    {
-                        if (other == gameObject) continue;
+                    SpawnEnemy();
+                    spawnInterval = 0;
+                }
 
-                        gameObject.CheckCollision(other);
+
+                foreach (GameObject gameObject in gameObjects)
+                {
+                    gameObject.Update(gameTime);
+
+                    if (gameObject.CollisionEnabled)
+                    {
+                        foreach (GameObject other in gameObjects)
+                        {
+                            if (other == gameObject) continue;
+
+                            gameObject.CheckCollision(other);
+                        }
                     }
                 }
 
+                if (player != null && playerHealthBar != null)
+                {
+                    playerHealthBar.SetHealth((int)player.Health);
+                }
             }
 
-
+            if (player != null && player.Health <= 0)
+            {
+                gameOver = true; // if player health i <0 the game ends 
+                //Exit();
+            }
 
             AddGameobjects();
             RemoveGameobjects();
 
-            if (playerHealthBar != null)
-            {
-                playerHealthBar.SetHealth(playerHealthBar.currentHealth - 1);
-            }
+           
+
+            buffManager.UpdateUI(gameTime);
 
             
 
@@ -178,6 +238,24 @@ namespace Project1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            if (gameOver) // Malthe
+            {
+                GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+                Vector2 textPosition1 = new Vector2(_graphics.PreferredBackBufferWidth / 2 - 200, _graphics.PreferredBackBufferHeight / 2 - 50);
+                Vector2 textPosition2 = new Vector2(_graphics.PreferredBackBufferWidth / 2 - 250, _graphics.PreferredBackBufferHeight / 2 + 200);
+                _spriteBatch.DrawString(textFont, $"GAME OVER", textPosition1, Color.Green);
+                _spriteBatch.DrawString(textFont, $"Press R to Restart", textPosition2, Color.Green);
+                _spriteBatch.End();
+                return;
+                // Creates a gameOver screen when player dies, with text implemented on the screen
+                
+
+            }
+
+
+
+
             //Move the camera based on the player position
             Matrix cameraTransform = Matrix.CreateTranslation(-player.Position.X+screenSize.X/2, -player.Position.Y+screenSize.Y/2, 0);
 
@@ -192,13 +270,19 @@ namespace Project1
 #endif
             }
 
+             
+
             _spriteBatch.End();
 
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+            //Place all ui elements here (things that should stay on screen no matter the camera position)
+
+            buffManager.DrawUI(_spriteBatch);
             playerHealthBar.Draw(_spriteBatch);
             Scoreboard.Draw(_spriteBatch);
+            playerLevelUI.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -217,23 +301,69 @@ namespace Project1
             gameObjectsToAdd.Clear();
         }
 
+        /// <summary> // Malthe og Oliver
+        /// Resets the game state to its initial conditions, preparing for a new game session.
+        /// Resetting the player's health and position, clearing all enemies and
+        /// other non-player game objects, resetting relevant game variables, and restarting the background music.
+        /// </summary>
+        private void ResetGame()
+        {
+            // Reset game-over status
+            gameOver = false;
+
+            // Reset player's health and position to initial values
+            player.Health = 1000;
+            player.Position = new Vector2(screenSize.X / 2, screenSize.Y - 100);
+
+            // Remove all enemies and other non-player objects from the game
+            gameObjects.RemoveAll(o => o is Enemy);
+
+            // Clear the buffers for game objects to add and remove
+            gameObjectsToAdd.Clear();
+            gameObjectsToRemove.Clear();
+
+            // Reset game-specific variables
+            spawnInterval = 5;
+
+            // Restart background music
+            MediaPlayer.Play(song);
+        }
+
         public static void InstantiateGameobject(GameObject gameObject)
         {
             gameObjectsToAdd.Add(gameObject);
         }
 
+
+        /// <summary> // Mark og Malthe
+        /// Spawns a random enemy based on predefined probabilities. Each enemy type 
+        /// has a specific chance of spawning, and the spawned enemy is added to the game world.
+
+        /// </summary>
         private void SpawnEnemy()
         {
             Enemy spawnedEnemy;
 
-            bool spawnEnemy = rnd.Next(100) > 80;
-            if (spawnEnemy)
-                spawnedEnemy = new Enemy(player);
-            else
-                spawnedEnemy = new Enemy(player);
-            
-            
+            // Generate a random number to determine which enemy to spawn
+            int spawnEnemy = rnd.Next(100);
 
+            // Spawn different enemies based on probability ranges
+            if (spawnEnemy <= 20)
+                spawnedEnemy = new Rat(player); // 21% chance
+            else if (spawnEnemy > 20 && spawnEnemy <= 38)
+                spawnedEnemy = new Snake(player); // 18% chance
+            else if (spawnEnemy > 38 && spawnEnemy <= 55)
+                spawnedEnemy = new Scorpio(player); // 17% chance
+            else if (spawnEnemy > 55 && spawnEnemy <= 70)
+                spawnedEnemy = new Vulture(player); // 15% chance
+            else if (spawnEnemy > 70 && spawnEnemy <= 85)
+                spawnedEnemy = new Hyena(player); // 15% chance
+            else if (spawnEnemy > 85 && spawnEnemy <= 95)
+                spawnedEnemy = new Deceased(player); // 10% chance
+            else
+                spawnedEnemy = new Mummy(player); // 5% chance
+
+           
             spawnedEnemy.LoadContent(Content);
             gameObjects.Add(spawnedEnemy);
         }
