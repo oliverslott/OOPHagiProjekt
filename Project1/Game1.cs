@@ -315,6 +315,9 @@ namespace Project1
             player.Health = 1000;
             player.Position = new Vector2(screenSize.X / 2, screenSize.Y - 100);
 
+            player.Level = 0;
+            player.Xp = 0;
+
             // Remove all enemies and other non-player objects from the game
             gameObjects.RemoveAll(o => o is Enemy);
 
